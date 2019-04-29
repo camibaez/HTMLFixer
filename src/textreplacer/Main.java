@@ -15,6 +15,8 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.LinkedList;
 import java.util.List;
+import textreplacer.rules.ReplaceText;
+import textreplacer.rules.Rule;
 
 /**
  *
@@ -31,7 +33,7 @@ public class Main {
 
         //System.out.println(">Enter path");
         //String path = reader.readLine().trim();
-        String path = "C:\\Users\\cbaez\\Desktop\\TestFolder";
+        String path = "C:\\Users\\cbaez\\Desktop\\TestFolder\\test1";
 
         //System.out.println(">Enter extensions (coma sepearated, no spaces, no leading period) ex: jsp,html");
         //String extensions = reader.readLine().toLowerCase().trim();
@@ -49,10 +51,14 @@ public class Main {
         
          */
         
-        String[] expressions = new String[] {"oncontextmenu=\"showPopUp("};
+        String[] expressions = new String[] {"body"};
         FilePrototype prototype = new FilePrototype(extensions, new LinkedList<>(Arrays.asList(expressions)));
         
-        Finder finder = new Finder(prototype);
+        List<Rule> rules = new LinkedList<Rule>();
+        rules.add(new ReplaceText("head", "head-ead"));
+        Cleaner cleaner = new Cleaner(rules);
+        
+        Finder finder = new Finder(prototype, cleaner);
         Files.walkFileTree(Paths.get(path), finder);
         finder.done();
     }

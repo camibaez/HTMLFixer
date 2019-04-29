@@ -5,6 +5,7 @@
  */
 package textreplacer;
 
+import textreplacer.rules.HtmlRule;
 import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileNotFoundException;
@@ -13,8 +14,10 @@ import java.io.IOException;
 import java.nio.file.FileSystems;
 import java.nio.file.FileVisitResult;
 import static java.nio.file.FileVisitResult.CONTINUE;
+import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.PathMatcher;
+import java.nio.file.Paths;
 import java.nio.file.SimpleFileVisitor;
 import java.nio.file.attribute.BasicFileAttributes;
 import java.util.LinkedList;
@@ -26,15 +29,19 @@ import java.util.logging.Logger;
  * A {@code FileVisitor} that finds all files that match the specified pattern.
  */
 public class Finder extends SimpleFileVisitor<Path> {
-
-    private final FilePrototype filePrototype;
     private final PathMatcher matcher;
+    private List<File> matchedFiles;
+    
+    private final FilePrototype filePrototype;
+    private Cleaner cleaner;
+    
     private int countMatched = 0;
     private int countSkipped = 0;
 
-    Finder(FilePrototype prototype) {
+    Finder(FilePrototype prototype, Cleaner cleaner) {
         filePrototype = prototype;
         matcher = FileSystems.getDefault().getPathMatcher("glob:" + filePrototype.getExtensions());
+        this.cleaner = cleaner;
 
     }
 
@@ -67,16 +74,16 @@ public class Finder extends SimpleFileVisitor<Path> {
     @Override
     public FileVisitResult visitFile(Path file, BasicFileAttributes attrs) {
         try {
-            if (!checkFileName(file)) {
+            if (!checkFileName(file) || !checkContent(file)) {
                 countSkipped++;
-            }
-            if (checkContent(file)) {
-                countMatched++;
-                System.out.println(file);
+                return CONTINUE;
             }
             
-            String head = new FileTransformer(file.toFile()).getHeader();
-            System.out.println("head: " + head);
+            matchedFiles.add(file.toFile());
+            
+            
+            String res = processFile(file);
+            System.out.println(res);
             
         } catch (IOException ex) {
             Logger.getLogger(Finder.class.getName()).log(Level.SEVERE, null, ex);
@@ -103,5 +110,15 @@ public class Finder extends SimpleFileVisitor<Path> {
     // matches to standard out.
     public void done() {
         System.out.println("Matched: " + countMatched);
+    }
+    
+    
+    
+    public String processFile(Path file) throws IOException{
+       String read = new String ( Files.readAllBytes( file ) );
+       Object result = cleaner.clean(read);
+       return (String) result;
+       
+       
     }
 }
