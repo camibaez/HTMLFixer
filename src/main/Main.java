@@ -6,6 +6,9 @@
 package main;
 
 import core.file.Cleaner;
+import core.file.FileCentral;
+import core.file.FileMatcher;
+import core.file.FileProcessor;
 import core.file.FilePrototype;
 import core.rules.ReplaceText;
 import java.io.BufferedReader;
@@ -14,6 +17,8 @@ import java.io.InputStreamReader;
 import java.util.Arrays;
 import java.util.LinkedList;
 import core.rules.Rule;
+import java.nio.file.Files;
+import java.nio.file.Paths;
 import java.util.List;
 
 /**
@@ -26,16 +31,45 @@ public class Main {
      * @param args the command line arguments
      * @throws java.io.IOException
      */
-    public static void main(String[] args) throws IOException {
+    public static void maina(String[] args) throws IOException {
+        System.out.println("HTMLFixer v0.1");
+        System.out.println("Enter command (load | create)");
+
         BufferedReader reader = new BufferedReader(new InputStreamReader(System.in));
 
-        //System.out.println(">Enter path");
-        //String path = reader.readLine().trim();
-        String path = "C:\\Users\\cbaez\\Desktop\\Test";
+        while (true) {
+            String command = reader.readLine().trim();
+            if (command.equalsIgnoreCase("exit")) {
+                return;
+            }
+            if (command.equalsIgnoreCase("load")) {
+                loadProjectMode(reader);
+            }
+        }
 
-        //System.out.println(">Enter extensions (coma sepearated, no spaces, no leading period) ex: jsp,html");
-        //String extensions = reader.readLine().toLowerCase().trim();
-        String extensions = "*.txt";
+        //ProjectAdministration.saveProject(project, "conf\\clenaer1.json");
+    }
+
+    protected static void loadProjectMode(BufferedReader reader) throws IOException {
+        /*
+        System.out.println(">Enter project path");
+        String projectPath = reader.readLine().trim();
+        Project project = ProjectAdministration.loadProject(projectPath);
+        
+        System.out.println(">Enter files path");
+        String path = reader.readLine().trim();
+        FileMatcher finder = new FileMatcher(new FileCentral(), project.getPrototype());
+        Files.walkFileTree(Paths.get(path), finder);
+        System.out.println(finder.getFileCentral().getMatchedFiles().toString());
+
+        new FileProcessor(finder.getFileCentral(), project.getCleaners()).processFiles();
+        */
+    }
+
+    public static void createProjectMode(BufferedReader reader) throws IOException {
+        System.out.println(">Enter extensions (coma sepearated, no spaces, no leading period) ex: jsp,html");
+        String extensions = reader.readLine().toLowerCase().trim();
+
 
         /*
          System.out.println(">Enter expressions file must contain. Enter |finish| once you finished.");
@@ -54,25 +88,21 @@ public class Main {
         //FileMatcher finder = new FileMatcher(new FileCentral(), prototype);
         //Files.walkFileTree(Paths.get(path), finder);
         //System.out.println(finder.getFileCentral().getMatchedFiles().toString());
-
         Rule[] rules = {new ReplaceText("casa", "tasa\\-pasa\\.")};
         rules[0].setId("rule1");
         rules[0].setDescription("Rule test 1");
-        
+
         Cleaner cleaner = new Cleaner(Arrays.asList(rules));
         cleaner.setId("Cleaner");
         cleaner.setDescription("Cleaner Description");
         //new FileProcessor(finder.getFileCentral(), cleaner).processFiles();
-        
+
         List<Cleaner> cleaners = new LinkedList<Cleaner>();
         cleaners.add(cleaner);
-        
+
         Project project = new Project(prototype, cleaners);
         project.setName("Proj 1");
         project.setDescription("Proj 1 desc");
-        
-        ProjectAdministration.saveProject(project, "conf\\clenaer1.json");
-        ProjectAdministration.loadProject("conf\\clenaer1.proj.json");
-    }
 
+    }
 }

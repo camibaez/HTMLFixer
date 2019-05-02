@@ -14,6 +14,7 @@ import java.io.IOException;
 import java.io.OutputStreamWriter;
 import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
+import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -24,16 +25,19 @@ import java.util.logging.Logger;
 public class FileProcessor {
 
     protected FileCentral fileCentral;
-    private Cleaner cleaner;
+    private List<Cleaner> cleaners;
 
-    public FileProcessor(FileCentral fileCentral, Cleaner cleaner) {
+    public FileProcessor(FileCentral fileCentral, List<Cleaner> cleaners) {
         this.fileCentral = fileCentral;
-        this.cleaner = cleaner;
+        this.cleaners = cleaners;
     }
 
     public String processFile(File file) throws IOException {
-        String read = new String(Files.readAllBytes(file.toPath()));
-        Object result = cleaner.clean(read);
+        Object result = new String(Files.readAllBytes(file.toPath()));
+        for(Cleaner cleaner: cleaners){
+             result = cleaner.clean(result);
+        }
+        
         return TypeTransformer.transformForType(String.class, result);
     }
 
@@ -67,12 +71,12 @@ public class FileProcessor {
         this.fileCentral = fileCentral;
     }
 
-    public Cleaner getCleaner() {
-        return cleaner;
+    public List<Cleaner> getCleaners() {
+        return cleaners;
     }
 
-    public void setCleaner(Cleaner cleaner) {
-        this.cleaner = cleaner;
+    public void setCleaners(List<Cleaner> cleaners) {
+        this.cleaners = cleaners;
     }
 
 }
