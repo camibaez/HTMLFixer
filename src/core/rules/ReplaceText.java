@@ -11,33 +11,40 @@ import java.util.regex.Pattern;
  *
  * @author cbaez
  */
-public class ReplaceText extends TextRule{
+public class ReplaceText extends TextRule {
 
-    protected String pattern;
-
-    
+    protected Pattern pattern;
     protected String replace;
 
+    protected int flags;
+
     public ReplaceText(String pattern, String replace) {
-        this.pattern = pattern;
+        this.pattern = Pattern.compile(pattern);
         this.replace = replace;
+
+    }
+
+    public ReplaceText(String pattern, String replace, int flags) {
+        this.pattern = Pattern.compile(pattern, flags);
+        this.replace = replace;
+        this.flags = flags;
     }
 
     @Override
     public Object transform(String target) {
-        return target.replaceAll(pattern, replace);
+        return pattern.matcher(target).replaceAll(replace);
     }
 
-    
-    
     public String getPattern() {
-        return pattern;
+        return pattern.pattern();
     }
 
-    
     public String getReplace() {
         return replace;
     }
 
-   
+    public int getFlags() {
+        return flags;
+    }
+
 }

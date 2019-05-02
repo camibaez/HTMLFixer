@@ -31,19 +31,38 @@ public class Main {
      * @param args the command line arguments
      * @throws java.io.IOException
      */
-    public static void maina(String[] args) throws IOException {
+    public static void main(String[] args) throws IOException {
         System.out.println("HTMLFixer v0.1");
-        System.out.println("Enter command (load | create)");
+        System.out.println("Run project (run $projectname)");
 
         BufferedReader reader = new BufferedReader(new InputStreamReader(System.in));
-
         while (true) {
+            System.out.print(">");
             String command = reader.readLine().trim();
             if (command.equalsIgnoreCase("exit")) {
                 return;
-            }
-            if (command.equalsIgnoreCase("load")) {
-                loadProjectMode(reader);
+            } else if (command.startsWith("run ")) {
+                String projectName = command.substring(command.lastIndexOf(" ")).trim();
+
+                Project project = ProjectAdministration.loadProject("conf\\" + projectName + ".json");
+                System.out.println(">Last working directory: " + project.getLastWorkingDirectory());
+                System.out.print(">Enter working directory\n>");
+                String path = reader.readLine().trim();
+                if (path.isEmpty()) {
+                    path = project.getLastWorkingDirectory();
+                }
+                project.setWorkingDirectory(path);
+                FileMatcher finder = new FileMatcher(new FileCentral(), project.getPrototype());
+                Files.walkFileTree(Paths.get(path), finder);
+                finder.getFileCentral().getMatchedFiles().forEach(f -> {
+                    System.out.println(f.getAbsolutePath());
+                });
+
+                new FileProcessor(finder.getFileCentral(), project.getCleaners()).processFiles();
+                System.out.println("Files processed");
+
+            } else {
+                System.out.println("Unknown command '" + command + "'");
             }
         }
 
@@ -52,18 +71,18 @@ public class Main {
 
     protected static void loadProjectMode(BufferedReader reader) throws IOException {
         /*
-        System.out.println(">Enter project path");
-        String projectPath = reader.readLine().trim();
-        Project project = ProjectAdministration.loadProject(projectPath);
+         System.out.println(">Enter project path");
+         String projectPath = reader.readLine().trim();
+         Project project = ProjectAdministration.loadProject(projectPath);
         
-        System.out.println(">Enter files path");
-        String path = reader.readLine().trim();
-        FileMatcher finder = new FileMatcher(new FileCentral(), project.getPrototype());
-        Files.walkFileTree(Paths.get(path), finder);
-        System.out.println(finder.getFileCentral().getMatchedFiles().toString());
+         System.out.println(">Enter files path");
+         String path = reader.readLine().trim();
+         FileMatcher finder = new FileMatcher(new FileCentral(), project.getPrototype());
+         Files.walkFileTree(Paths.get(path), finder);
+         System.out.println(finder.getFileCentral().getMatchedFiles().toString());
 
-        new FileProcessor(finder.getFileCentral(), project.getCleaners()).processFiles();
-        */
+         new FileProcessor(finder.getFileCentral(), project.getCleaners()).processFiles();
+         */
     }
 
     public static void createProjectMode(BufferedReader reader) throws IOException {

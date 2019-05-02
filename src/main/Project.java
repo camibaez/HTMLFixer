@@ -17,6 +17,8 @@ import java.util.List;
 public class Project {
     protected String name;
     protected String description;
+    protected String lastWorkingDirectory;
+    protected String workingDirectory;
     protected FilePrototype prototype;
     protected List<Cleaner> cleaners;
 
@@ -59,6 +61,22 @@ public class Project {
 
     public void setDescription(String description) {
         this.description = description;
+    }
+
+    public String getLastWorkingDirectory() {
+        return lastWorkingDirectory;
+    }
+
+    public void setLastWorkingDirectory(String lastWorkingDirectory) {
+        this.lastWorkingDirectory = lastWorkingDirectory;
+    }
+
+    public String getWorkingDirectory() {
+        return workingDirectory;
+    }
+
+    public void setWorkingDirectory(String workingDirectory) {
+        this.workingDirectory = workingDirectory;
     }
     
     

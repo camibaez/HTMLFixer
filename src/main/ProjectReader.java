@@ -24,13 +24,16 @@ public class ProjectReader {
             Project project = new Project();
             project.setName((String) jsonObject.get("name"));
             project.setDescription((String) jsonObject.get("description"));
+            project.setLastWorkingDirectory((String) jsonObject.get("lastWorkingDirectory"));
             return project;
         }
 
         public static ReplaceText readReplaceTextRule(Map ruleData) {
             String pattern = (String) ruleData.get("pattern");
             String replace = (String) ruleData.get("replace");
-            return new ReplaceText(pattern, replace);
+            int flags = ((Long) ruleData.get("flags")).intValue();
+            return new ReplaceText(pattern, replace, flags);
+           
         }
 
         public static List<Rule> readRules(JSONArray rulesData) {

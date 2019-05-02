@@ -12,12 +12,16 @@ import core.rules.Rule;
 import java.util.LinkedHashMap;
 import java.util.Map;
 import org.json.simple.JSONArray;
+import org.json.simple.JSONObject;
 
 /**
  *
  * @author cbaez
  */
 public class ProjectWriter {
+    
+    
+    
      protected static Map writePrototype(FilePrototype prototype) {
             Map prototypeData = new LinkedHashMap(2);
             prototypeData.put("extensions", prototype.getExtensions());
@@ -45,9 +49,10 @@ public class ProjectWriter {
         }
 
         public static Map writeReplaceTextRule(ReplaceText rule) {
-            Map ruleData = new LinkedHashMap(2);
+            Map ruleData = new LinkedHashMap(3);
             ruleData.put("pattern", rule.getPattern());
             ruleData.put("replace", rule.getReplace());
+            ruleData.put("flags", rule.getFlags());
             return ruleData;
         }
 }

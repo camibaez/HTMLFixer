@@ -7,19 +7,13 @@ package main;
 
 import core.file.Cleaner;
 import core.file.FilePrototype;
-import core.rules.ReplaceText;
-import core.rules.Rule;
 import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.io.Reader;
 
-import java.util.Iterator;
-import java.util.LinkedHashMap;
-import java.util.LinkedList;
 import java.util.List;
-import java.util.Map;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import org.json.simple.JSONArray;
@@ -32,12 +26,14 @@ import org.json.simple.parser.ParseException;
  * @author cbaez
  */
 public class ProjectAdministration {
+
     public static void saveProject(Project project, String path) throws FileNotFoundException {
 
         JSONObject jo = new JSONObject();
 
         jo.put("name", project.getName());
         jo.put("description", project.getDescription());
+        jo.put("lastWorkingDirectory", project.getWorkingDirectory());
         jo.put("filePrototype", ProjectWriter.writePrototype(project.getPrototype()));
 
         JSONArray cleanersArray = new JSONArray();
@@ -57,9 +53,6 @@ public class ProjectAdministration {
         }
 
     }
-    
-    
-    
 
     public static Project loadProject(String path) {
         JSONParser parser = new JSONParser();
@@ -67,8 +60,6 @@ public class ProjectAdministration {
         try (Reader reader = new FileReader(path)) {
 
             JSONObject jsonObject = (JSONObject) parser.parse(reader);
-            System.out.println(jsonObject);
-
             Project project = ProjectReader.readProject(jsonObject);
             FilePrototype prototype = ProjectReader.readPrototype(jsonObject);
             List<Cleaner> cleaners = ProjectReader.readCleaners(jsonObject);
@@ -85,6 +76,6 @@ public class ProjectAdministration {
         }
 
         return null;
-        
+
     }
 }

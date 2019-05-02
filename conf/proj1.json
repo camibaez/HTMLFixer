@@ -1,0 +1,24 @@
+{
+    "filePrototype": {
+        "extensions": "*.jsp",
+        "expressions": []
+    },
+    "cleaners": [{
+            "id": "",
+            "description": "",
+            "rules": [{
+                    "pattern": "<script.*/pages/e/javascripts/eIBS\\.jsp\".*>.*</script>",
+                    "replace": "$1 \n <script src=\"<%=request.getContextPath()%>/pages/e/javascripts/optMenu.jsp\"></script>",
+                    "flags": 2,
+                    "ruleClass": "core.rules.ReplaceText"
+                }, {
+                    "pattern": "<link.*rel='stylesheet'.*href='css/style.css'.*/>",
+                    "replace": "",
+                    "flags": 2,
+                    "ruleClass": "core.rules.ReplaceText"
+                }]
+        }],
+    "lastWorkingDirectory": "conf\\test-files",
+    "name": null,
+    "description": null
+}
