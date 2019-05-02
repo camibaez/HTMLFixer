@@ -50,4 +50,7 @@ public class Cleaner {
         this.description = description;
     }
 
+    public String toString(){
+        return id + " " + description;
+    }
 }

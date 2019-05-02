@@ -4,7 +4,7 @@
         "expressions": []
     },
     "cleaners": [{
-            "id": "Cleaner",
+            "id": "Cleaner 1",
             "description": "Cleaner Description",
             "rules": [{
                     "pattern": "casa",
