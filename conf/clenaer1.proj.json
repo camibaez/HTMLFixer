@@ -1,0 +1,17 @@
+{
+    "filePrototype": {
+        "extensions": "*.txt",
+        "expressions": []
+    },
+    "cleaners": [{
+            "id": "Cleaner",
+            "description": "Cleaner Description",
+            "rules": [{
+                    "pattern": "casa",
+                    "replace": "tasa\\-pasa\\.",
+                    "ruleClass": "core.rules.ReplaceText"
+                }]
+        }],
+    "name": "Proj 1",
+    "description": "Proj 1 desc"
+}

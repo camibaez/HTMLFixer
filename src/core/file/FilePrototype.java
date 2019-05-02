@@ -3,9 +3,10 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package textreplacer;
+package core.file;
 
 import java.util.Arrays;
+import java.util.LinkedList;
 import java.util.List;
 
 /**
@@ -15,11 +16,11 @@ import java.util.List;
 public class FilePrototype {
     protected String extensions;
     //rc;expr
-    protected List<String> expressions; 
+    protected List<String> expressions;
 
     public FilePrototype(String extensions, List<String> expressions) {
-        this.extensions = extensions;
-        this.expressions = expressions;
+        this.extensions = extensions == null? "" : extensions;
+        this.expressions = expressions == null? new LinkedList<>(): expressions;
     }
 
     public String getExtensions() {

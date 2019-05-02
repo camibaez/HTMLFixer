@@ -3,12 +3,12 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package textreplacer.rules;
+package core.rules;
 
 /**
  *
  * @author cbaez
  */
-public abstract class Rule {
-    public abstract Object process(Object target);
+public abstract class TextRule extends Rule<String>{
+    
 }

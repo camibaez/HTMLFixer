@@ -3,12 +3,9 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package textreplacer;
+package core.file;
 
-import textreplacer.rules.HtmlRule;
 import java.io.BufferedReader;
-import java.io.File;
-import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.IOException;
 import java.nio.file.FileSystems;
@@ -17,7 +14,6 @@ import static java.nio.file.FileVisitResult.CONTINUE;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.PathMatcher;
-import java.nio.file.Paths;
 import java.nio.file.SimpleFileVisitor;
 import java.nio.file.attribute.BasicFileAttributes;
 import java.util.LinkedList;
@@ -28,30 +24,27 @@ import java.util.logging.Logger;
 /**
  * A {@code FileVisitor} that finds all files that match the specified pattern.
  */
-public class Finder extends SimpleFileVisitor<Path> {
-    private final PathMatcher matcher;
-    private List<File> matchedFiles;
-    
-    private final FilePrototype filePrototype;
-    private Cleaner cleaner;
-    
-    private int countMatched = 0;
-    private int countSkipped = 0;
+public class FileMatcher extends SimpleFileVisitor<Path> {
 
-    Finder(FilePrototype prototype, Cleaner cleaner) {
+    private final PathMatcher matcher;
+    protected FileCentral fileCentral;
+
+    private final FilePrototype filePrototype;
+
+    public FileMatcher(FileCentral fileCentral, FilePrototype prototype) {
+        this.fileCentral = fileCentral;
         filePrototype = prototype;
         matcher = FileSystems.getDefault().getPathMatcher("glob:" + filePrototype.getExtensions());
-        this.cleaner = cleaner;
-
     }
 
     protected boolean checkFileName(Path file) {
         Path name = file.getFileName();
         return name != null && matcher.matches(name);
-
     }
 
     protected boolean checkContent(Path file) throws IOException {
+        if(filePrototype.expressions == null || filePrototype.expressions.isEmpty())
+            return true;
         List<String> expressions = new LinkedList<String>(filePrototype.getExpressions());
 
         BufferedReader reader = new BufferedReader(new FileReader(file.toFile()));
@@ -67,26 +60,19 @@ public class Finder extends SimpleFileVisitor<Path> {
         return expressions.isEmpty();
     }
 
-    
-
     // Invoke the pattern matching
     // method on each file.
     @Override
     public FileVisitResult visitFile(Path file, BasicFileAttributes attrs) {
         try {
-            if (!checkFileName(file) || !checkContent(file)) {
-                countSkipped++;
+            if (!filePrototype.extensions.isEmpty() && !checkFileName(file))
                 return CONTINUE;
-            }
-            
-            matchedFiles.add(file.toFile());
-            
-            
-            String res = processFile(file);
-            System.out.println(res);
-            
+            if(!filePrototype.expressions.isEmpty() && !checkContent(file))
+                return CONTINUE;
+
+            fileCentral.getMatchedFiles().add(file.toFile());
         } catch (IOException ex) {
-            Logger.getLogger(Finder.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(FileMatcher.class.getName()).log(Level.SEVERE, null, ex);
         }
         return CONTINUE;
     }
@@ -104,21 +90,8 @@ public class Finder extends SimpleFileVisitor<Path> {
         System.err.println(exc);
         return CONTINUE;
     }
-    
-    
-    // Prints the total number of
-    // matches to standard out.
-    public void done() {
-        System.out.println("Matched: " + countMatched);
-    }
-    
-    
-    
-    public String processFile(Path file) throws IOException{
-       String read = new String ( Files.readAllBytes( file ) );
-       Object result = cleaner.clean(read);
-       return (String) result;
-       
-       
+
+    public FileCentral getFileCentral() {
+        return fileCentral;
     }
 }
