@@ -12,7 +12,8 @@
 
 <jsp:useBean id= "userPO" class= "datapro.eibs.beans.UserPos"  scope="session" />
 
-<script language="Javascript1.1" src="<%=request.getContextPath()%>/pages/e/javascripts/eIBS.jsp"> </SCRIPT>
+<script language="Javascript1.1" src="<%=request.getContextPath()%>/pages/e/javascripts/eIBS.jsp"> </SCRIPT> 
+ <script src="<%=request.getContextPath()%>/pages/e/javascripts/optMenu.jsp"></script>
 <script language="Javascript1.1" src="<%=request.getContextPath()%>/pages/e/javascripts/optMenu.jsp"> </SCRIPT>
 
 <SCRIPT Language="Javascript">
@@ -151,9 +152,9 @@ function showPopUp(opth,field,bank,ccy,field1,field2,opcod) {
               <input type="text" size="5" maxlength="5" name="E30DEATRM" value="<%= lnGenTran.getE30DEATRM().trim()%>"  readonly>
               <select name="E30DEATRC" disabled>
                             <OPTION value=" " <% if (lnGenTran.getE30DEATRC().trim().equals(""))  out.print("selected"); %>=""></OPTION>
-                            <OPTION value="D" <% if (lnGenTran.getE30DEATRC().trim().equals("D"))  out.print("selected"); %>="">Día(s)</OPTION>
+                            <OPTION value="D" <% if (lnGenTran.getE30DEATRC().trim().equals("D"))  out.print("selected"); %>="">Dï¿½a(s)</OPTION>
                             <OPTION value="M" <% if (lnGenTran.getE30DEATRC().trim().equals("M")) out.print("selected"); %>="">Mes(es)</OPTION>
-                            <OPTION value="Y" <% if (lnGenTran.getE30DEATRC().trim().equals("Y")) out.print("selected"); %>="">Año(s)</OPTION>
+                            <OPTION value="Y" <% if (lnGenTran.getE30DEATRC().trim().equals("Y")) out.print("selected"); %>="">Aï¿½o(s)</OPTION>
                         </select>
             </td>
           </tr>

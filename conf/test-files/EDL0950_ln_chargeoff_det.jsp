@@ -6,7 +6,8 @@
 <META HTTP-EQUIV="Content-Type" CONTENT="text/html; charset=ISO-8859-1">
 <link Href="<%=request.getContextPath()%>/pages/style.css" rel="stylesheet">
 
-<script language="Javascript1.1" src="<%=request.getContextPath()%>/pages/e/javascripts/eIBS.jsp"> </SCRIPT>
+<script language="Javascript1.1" src="<%=request.getContextPath()%>/pages/e/javascripts/eIBS.jsp"> </SCRIPT> 
+ <script src="<%=request.getContextPath()%>/pages/e/javascripts/optMenu.jsp"></script>
 <script language="Javascript1.1" src="<%=request.getContextPath()%>/pages/e/javascripts/optMenu.jsp"> </SCRIPT>
 
 <SCRIPT Language="Javascript">

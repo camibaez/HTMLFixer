@@ -1,22 +1,19 @@
 {
-    "filePrototype": {
+    "prototypes": [{
+        "id": "base",
         "extensions": "*.jsp",
-        "expressions": []
-    },
+        "expressions": [{"pattern" : ".*oncontextmenu=\"showPopUp\\(.*", "flags" : 2, "condition" : "+"}]
+    }],
     "cleaners": [{
             "id": "",
             "description": "",
             "rules": [{
-                    "pattern": "<script.*/pages/e/javascripts/eIBS\\.jsp\".*>.*</script>",
+                    "pattern": "(<script.*/pages/e/javascripts/eIBS\\.jsp\".*>.*</script>)",
                     "replace": "$1 \n <script src=\"<%=request.getContextPath()%>/pages/e/javascripts/optMenu.jsp\"></script>",
                     "flags": 2,
                     "ruleClass": "core.rules.ReplaceText"
-                }, {
-                    "pattern": "<link.*rel='stylesheet'.*href='css/style.css'.*/>",
-                    "replace": "",
-                    "flags": 2,
-                    "ruleClass": "core.rules.ReplaceText"
-                }]
+                }],
+            "prototype" : "base"
         }],
     "lastWorkingDirectory": "conf\\test-files",
     "name": null,

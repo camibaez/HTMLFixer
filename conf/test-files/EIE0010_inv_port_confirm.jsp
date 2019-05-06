@@ -18,7 +18,8 @@
 <META http-equiv="Content-Style-Type" content="text/css">
 <link href="<%=request.getContextPath()%>/pages/style.css" rel="stylesheet">
 
-<script language="Javascript1.1" src="<%=request.getContextPath()%>/pages/e/javascripts/eIBS.jsp"> </SCRIPT>
+<script language="Javascript1.1" src="<%=request.getContextPath()%>/pages/e/javascripts/eIBS.jsp"> </SCRIPT> 
+ <script src="<%=request.getContextPath()%>/pages/e/javascripts/optMenu.jsp"></script>
 <SCRIPT Language = "javascript">
 function finish(){
 	self.window.location.href = "<%=request.getContextPath()%>/pages/background.jsp";

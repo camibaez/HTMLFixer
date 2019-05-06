@@ -9,7 +9,8 @@
 
 <%@ page import = "datapro.eibs.master.Util" %>
 
-<script language="Javascript1.1" src="<%=request.getContextPath()%>/pages/e/javascripts/eIBS.jsp"> </SCRIPT>
+<script language="Javascript1.1" src="<%=request.getContextPath()%>/pages/e/javascripts/eIBS.jsp"> </SCRIPT> 
+ <script src="<%=request.getContextPath()%>/pages/e/javascripts/optMenu.jsp"></script>
 <script language="Javascript1.1" src="<%=request.getContextPath()%>/pages/e/javascripts/optMenu.jsp"> </SCRIPT>
 <SCRIPT Language="Javascript">
 

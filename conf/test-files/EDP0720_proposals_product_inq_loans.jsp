@@ -17,7 +17,8 @@ Producto
 <jsp:useBean id= "currUser" class= "datapro.eibs.beans.ESS0030DSMessage"  scope="session" />
 
 
-<script language="Javascript1.1" src="<%=request.getContextPath()%>/pages/e/javascripts/eIBS.jsp"> </SCRIPT>
+<script language="Javascript1.1" src="<%=request.getContextPath()%>/pages/e/javascripts/eIBS.jsp"> </SCRIPT> 
+ <script src="<%=request.getContextPath()%>/pages/e/javascripts/optMenu.jsp"></script>
 <script language="Javascript1.1" src="<%=request.getContextPath()%>/pages/e/javascripts/optMenu.jsp"> </SCRIPT>
 
 <%
@@ -521,7 +522,7 @@ function cancelBub(){
 					<OPTION value="2"
 						<%if (msgList.getE01PLTUPL().equals("2")) { out.print("selected"); }%>>Mes(es)</OPTION>
 					<OPTION value="3"
-						<%if (msgList.getE01PLTUPL().equals("3")) { out.print("selected"); }%>>Año(s)</OPTION>
+						<%if (msgList.getE01PLTUPL().equals("3")) { out.print("selected"); }%>>Aï¿½o(s)</OPTION>
 					</SELECT>
 				</td>
 			</tr>
@@ -1077,7 +1078,7 @@ function cancelBub(){
 		<table cellspacing="0" cellpadding="0" width="100%" border="0">
 			<tr id="trclear">
 				<td width="20%" align="left">
-					<div> Comisión o Girado:</div>
+					<div> Comisiï¿½n o Girado:</div>
 				</td>
 				<td width="50%" align="left">
 				  <TEXTAREA name="E02DPAC07" rows="5" cols="70" value="<%= msgRTC.getE02DPAC07().trim()%>"
@@ -1119,7 +1120,7 @@ function cancelBub(){
 		<table cellspacing="0" cellpadding="0" width="100%" border="0">
 			<tr id="trclear">
 				<td width="20%" align="left">
-					<div>Garantía:</div>
+					<div>Garantï¿½a:</div>
 				</td>
 				<td width="50%" align="left">
 <%--
@@ -1129,19 +1130,19 @@ function cancelBub(){
 					<OPTION value=""
 						<%if (msgList.getE01PLTGAR().equals("")) { out.print("selected"); }%>></OPTION>
 					<OPTION value="0"
-						<%if (msgList.getE01PLTGAR().equals("0")) { out.print("selected"); }%>>Sin Garantía</OPTION>
+						<%if (msgList.getE01PLTGAR().equals("0")) { out.print("selected"); }%>>Sin Garantï¿½a</OPTION>
 					<OPTION value="1"
-						<%if (msgList.getE01PLTGAR().equals("1")) { out.print("selected"); }%>>Garantía</OPTION>
+						<%if (msgList.getE01PLTGAR().equals("1")) { out.print("selected"); }%>>Garantï¿½a</OPTION>
 					<OPTION value="2"
 						<%if (msgList.getE01PLTGAR().equals("2")) { out.print("selected"); }%>>Aval</OPTION>
 					<OPTION value="3"
-						<%if (msgList.getE01PLTGAR().equals("3")) { out.print("selected"); }%>>Garantía/Aval</OPTION>
+						<%if (msgList.getE01PLTGAR().equals("3")) { out.print("selected"); }%>>Garantï¿½a/Aval</OPTION>
 					<OPTION value="5"
 						<%if (msgList.getE01PLTGAR().equals("5")) { out.print("selected"); }%>>Fianza</OPTION>	
 					<OPTION value="6"
-						<%if (msgList.getE01PLTGAR().equals("6")) { out.print("selected"); }%>>Garantía-Fianza</OPTION>	
+						<%if (msgList.getE01PLTGAR().equals("6")) { out.print("selected"); }%>>Garantï¿½a-Fianza</OPTION>	
 					<OPTION value="4"
-						<%if (msgList.getE01PLTGAR().equals("4")) { out.print("selected"); }%>>Garantía/Co-Solicitante</OPTION>	
+						<%if (msgList.getE01PLTGAR().equals("4")) { out.print("selected"); }%>>Garantï¿½a/Co-Solicitante</OPTION>	
 				</SELECT>
 --%>
 				      	<INPUT type="text" name="E01PLTCN2" size="5" maxlength="4"
@@ -1418,14 +1419,14 @@ function cancelBub(){
 
 <A NAME="agricola">
 
-<h4>Agrícola</h4>
+<h4>Agrï¿½cola</h4>
 <table class="tableinfo">
       <tr > 
         <td width="802">
 		<table cellspacing="0" cellpadding="2" width="100%" border="0">
 			<tr id="trclear">
 				<td nowrap width="10%">
-				<div align="right">Número Registro:</div>
+				<div align="right">Nï¿½mero Registro:</div>
 				</td>
 				<td nowrap width="10%" align="left">
 		            <input type=TEXT name="E01DPZTNR" size=17 maxlength=16  value="<%= msgList.getE01DPZTNR().trim()%>"
@@ -1509,7 +1510,7 @@ function cancelBub(){
 				</SELECT>
 				</td>
 				<td nowrap width="28%">
-				<div align="right">Plazo del Crédito: 
+				<div align="right">Plazo del Crï¿½dito: 
 				<SELECT name="E01DPZPLA"
 					<% if(msgRT.getH01FLGWK3().equals("3")){out.print("DISABLED");}%>
 					>
@@ -1542,7 +1543,7 @@ function cancelBub(){
 				<td nowrap width="15%" align="left">
 				</td>
 				<td nowrap width="15%">
-				<div align="right">Nombre Explotación:</div>
+				<div align="right">Nombre Explotaciï¿½n:</div>
 				</td>
 				<td nowrap width="5%">
 		            <input type=TEXT name="E01DPZEXP" size=25 maxlength=25  value="<%= msgList.getE01DPZEXP().trim()%>"

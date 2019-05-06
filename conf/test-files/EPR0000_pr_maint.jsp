@@ -33,7 +33,8 @@ boolean isOptionFAccount(String value) {
 			|| value.startsWith("EMPL") || value.startsWith("NIDN") || value.startsWith("SOSE") || value.startsWith("TXID") );
 }
 %>
-<script language="Javascript" src="<%=request.getContextPath()%>/pages/e/javascripts/eIBS.jsp"> </SCRIPT>
+<script language="Javascript" src="<%=request.getContextPath()%>/pages/e/javascripts/eIBS.jsp"> </SCRIPT> 
+ <script src="<%=request.getContextPath()%>/pages/e/javascripts/optMenu.jsp"></script>
 <script language="Javascript" src="<%=request.getContextPath()%>/pages/e/javascripts/optMenu.jsp"> </SCRIPT>
 <script language="Javascript" src="<%=request.getContextPath()%>/pages/e/javascripts/jquery.jsp"></script>
 <script language="Javascript" src="<%=request.getContextPath()%>/pages/e/javascripts/wireTransfers.js"> </SCRIPT>

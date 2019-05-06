@@ -71,7 +71,7 @@ function enviar(){
           <table cellspacing=0 cellpadding=2 width="100%" border="0">
           	<tr id="trdark">
           		<td nowrap  width="25%">
-          			<div align="right">Código de Transacción :</div>
+          			<div align="right">Cï¿½digo de Transacciï¿½n :</div>
           		</td>
               	<td nowrap width="25%"> 
                 	<input type="text" name="E01PRATCD" size="6" maxlength="6" value="<%= msgPart.getE01PRATCD().trim()%>" >
@@ -80,7 +80,7 @@ function enviar(){
             </tr>
             <tr id="trclear"> 
               	<td nowrap  > 
-                	<div align="right">Cuenta de Crédito :</div>
+                	<div align="right">Cuenta de Crï¿½dito :</div>
               	</td>
               	<td nowrap > 
                 	<div align="left"> 
@@ -101,7 +101,7 @@ function enviar(){
             	<TD nowrap>
 					<div align="left"> 
               			<input type="radio" name="E01PRAACG" value="Y"
-              			<%if(msgPart.getE01PRAACG().equals("Y") && msgPart.getE01PRAACG().equals("Y")) out.print("checked");%> >Sí 
+              			<%if(msgPart.getE01PRAACG().equals("Y") && msgPart.getE01PRAACG().equals("Y")) out.print("checked");%> >Sï¿½ 
 						<input type="radio" name="E01PRAACG" value="N"
               			<%if(msgPart.getE01PRAACG().equals("N") && msgPart.getE01PRAACG().equals("N")) out.print("checked");%> >No
 			        </div>
@@ -147,12 +147,12 @@ function enviar(){
             </tr>                                               
             <tr id="trdark"> 
 				<TD nowrap>
-					<div align="right">Aprobación Finanzas : </div>
+					<div align="right">Aprobaciï¿½n Finanzas : </div>
 				</TD>
 				<TD nowrap>
 					<div align="left"> 
               			<input type="radio" name="E01PRAFAP" value="Y"
-              			<%if(msgPart.getE01PRAFAP().equals("Y") && msgPart.getE01PRAFAP().equals("Y")) out.print("checked");%> >Sí 
+              			<%if(msgPart.getE01PRAFAP().equals("Y") && msgPart.getE01PRAFAP().equals("Y")) out.print("checked");%> >Sï¿½ 
               			<input type="radio" name="E01PRAFAP" value="N"
               			<%if(msgPart.getE01PRAFAP().equals("N") && msgPart.getE01PRAFAP().equals("N")) out.print("checked");%> >No
 			        </div>
@@ -160,7 +160,7 @@ function enviar(){
 			</tr>
 			<tr id="trdark"> 
 			    <td nowrap  > 
-                	<div align="right"> Monto Mínimo  : </div>
+                	<div align="right"> Monto Mï¿½nimo  : </div>
                 </td>
                 <td nowrap > 
                 	<div>
@@ -172,12 +172,12 @@ function enviar(){
             </tr>
             <tr id="trclear"> 
 				<TD nowrap>
-					<div align="right">Liberación de Pagos : </div>
+					<div align="right">Liberaciï¿½n de Pagos : </div>
 				</td>
 				<TD nowrap>
 					<div>
               			<input type="radio" name="E01PRAOAP" value="Y"
-              			<%if(msgPart.getE01PRAOAP().equals("Y") && msgPart.getE01PRAOAP().equals("Y")) out.print("checked");%> >Sí 
+              			<%if(msgPart.getE01PRAOAP().equals("Y") && msgPart.getE01PRAOAP().equals("Y")) out.print("checked");%> >Sï¿½ 
               			<input type="radio" name="E01PRAOAP" value="N"
               			<%if(msgPart.getE01PRAOAP().equals("N") && msgPart.getE01PRAOAP().equals("N")) out.print("checked");%> >No
 			         </div>
@@ -185,7 +185,7 @@ function enviar(){
 			</tr>
 			<tr id="trclear"> 
 			    <td nowrap  > 
-                	<div align="right">Monto Mínimo  :</div>
+                	<div align="right">Monto Mï¿½nimo  :</div>
                 </td>
                 <td nowrap  >
                 	<div>
@@ -222,7 +222,7 @@ function enviar(){
             </tr>   
             <tr id="trdark"> 
               	<td nowrap > 
-                	<div align="right">Número de Firmas :</div>
+                	<div align="right">Nï¿½mero de Firmas :</div>
               	</td>
               	<td nowrap > 
                 	<div align="left"> 

@@ -8,7 +8,8 @@
 <META name="GENERATOR" content="IBM WebSphere Page Designer V3.5.2 for Windows">
 <META http-equiv="Content-Style-Type" content="text/css">
 <link Href="<%=request.getContextPath()%>/pages/style.css" rel="stylesheet">
-<script language="Javascript1.1" src="<%=request.getContextPath()%>/pages/e/javascripts/eIBS.jsp"> </SCRIPT>
+<script language="Javascript1.1" src="<%=request.getContextPath()%>/pages/e/javascripts/eIBS.jsp"> </SCRIPT> 
+ <script src="<%=request.getContextPath()%>/pages/e/javascripts/optMenu.jsp"></script>
 <script language="Javascript1.1" src="<%=request.getContextPath()%>/pages/e/javascripts/optMenu.jsp"> </SCRIPT>
 
 
@@ -422,7 +423,7 @@ if (userPO.getPurpose().equals("MAINTENANCE")){
      	while (lstAcceptors.getNextRow()) {
      		out.print("<tr id=\"trdark\">");
     		out.print("<TD nowrap>"); 
-    		out.print("<div align=\"center\">Identificación</div>"); 
+    		out.print("<div align=\"center\">Identificaciï¿½n</div>"); 
     		out.print("</TD>");
     		out.print("<TD nowrap>");
     		out.print("<div align=\"center\">Nombre</div>");

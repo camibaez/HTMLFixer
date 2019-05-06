@@ -8,7 +8,8 @@
 <META name="GENERATOR" content="IBM WebSphere Page Designer V3.5.2 for Windows">
 <META http-equiv="Content-Style-Type" content="text/css">
 <link Href="<%=request.getContextPath()%>/pages/style.css" rel="stylesheet">
-<script language="Javascript1.1" src="<%=request.getContextPath()%>/pages/e/javascripts/eIBS.jsp"> </SCRIPT>
+<script language="Javascript1.1" src="<%=request.getContextPath()%>/pages/e/javascripts/eIBS.jsp"> </SCRIPT> 
+ <script src="<%=request.getContextPath()%>/pages/e/javascripts/optMenu.jsp"></script>
 <script language="Javascript1.1" src="<%=request.getContextPath()%>/pages/e/javascripts/optMenu.jsp"> </SCRIPT>
 
 
@@ -256,7 +257,7 @@ if (userPO.getPurpose().equals("MAINTENANCE")){
               <input type="text" name="E01DEAICT" <% if (dftBasic.getF01DEAICT().equals("Y")) out.print("id=\"txtchanged\""); %> size="2" maxlength="1" value="<%= dftBasic.getE01DEAICT() %>" readonly>
               </td>
             <td nowrap width="25%" > 
-              <div align="right">Período Base :</div>
+              <div align="right">Perï¿½odo Base :</div>
             </td>
             <td nowrap width="27%" > 
               <input type="text" name="E01DEABAS" <% if (dftBasic.getF01DEABAS().equals("Y")) out.print("id=\"txtchanged\""); %> size="4" maxlength="3" value="<%= dftBasic.getE01DEABAS() %>" readonly>

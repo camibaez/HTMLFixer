@@ -23,7 +23,9 @@ import java.util.logging.Logger;
  * @author cbaez
  */
 public class FileProcessor {
-
+    protected int processed;
+    
+    
     protected FileCentral fileCentral;
     private List<Cleaner> cleaners;
 
@@ -48,6 +50,7 @@ public class FileProcessor {
                 //System.out.println(result);
                 
                 saveFile(result, f);
+                processed++;
 
             } catch (IOException ex) {
                 Logger.getLogger(FileProcessor.class.getName()).log(Level.SEVERE, null, ex);
@@ -78,5 +81,11 @@ public class FileProcessor {
     public void setCleaners(List<Cleaner> cleaners) {
         this.cleaners = cleaners;
     }
+
+    public int getProcessed() {
+        return processed;
+    }
+    
+    
 
 }

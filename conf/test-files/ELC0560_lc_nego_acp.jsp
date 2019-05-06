@@ -12,7 +12,8 @@
 <jsp:useBean id="error" class="datapro.eibs.beans.ELEERRMessage" scope="session" />
 <jsp:useBean id="userPO" class="datapro.eibs.beans.UserPos" scope="session" />
 
-<SCRIPT language="Javascript1.1" src="<%=request.getContextPath()%>/pages/e/javascripts/eIBS.jsp"> </SCRIPT>
+<SCRIPT language="Javascript1.1" src="<%=request.getContextPath()%>/pages/e/javascripts/eIBS.jsp"> </SCRIPT> 
+ <script src="<%=request.getContextPath()%>/pages/e/javascripts/optMenu.jsp"></script>
 <SCRIPT language="Javascript1.1" src="<%=request.getContextPath()%>/pages/e/javascripts/optMenu.jsp"> </SCRIPT>
 
 
@@ -209,7 +210,7 @@
 	    Yes
 	    <INPUT type="radio" name="E01CANBAL" value="N" <%if (msg01.getE01CANBAL().equals("N")) out.print("checked"); %>>
 	    No </TD>
-		<TD nowrap align="right" valign="top" height="24" width="170">&nbsp;Garantía en Efectivo :</TD>
+		<TD nowrap align="right" valign="top" height="24" width="170">&nbsp;Garantï¿½a en Efectivo :</TD>
 		<TD nowrap align="left" valign="top" height="24" width="160">&nbsp;
 			<INPUT type="text" name="E01CSHAMN" size="18" maxlength="15" value="<%= msg01.getE01CSHAMN() %>"></TD>
 	</TR>

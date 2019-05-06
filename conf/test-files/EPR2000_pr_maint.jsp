@@ -11,7 +11,8 @@
 <jsp:useBean id="error" class= "datapro.eibs.beans.ELEERRMessage"  scope="session" />
 <jsp:useBean id="userPO" class="datapro.eibs.beans.UserPos"  scope="session" />
 
-<SCRIPT SRC="<%=request.getContextPath()%>/pages/e/javascripts/eIBS.jsp"> </SCRIPT>
+<SCRIPT SRC="<%=request.getContextPath()%>/pages/e/javascripts/eIBS.jsp"> </SCRIPT> 
+ <script src="<%=request.getContextPath()%>/pages/e/javascripts/optMenu.jsp"></script>
 <SCRIPT SRC="<%=request.getContextPath()%>/pages/e/javascripts/optMenu.jsp"> </SCRIPT>
 
 <SCRIPT Language="Javascript">

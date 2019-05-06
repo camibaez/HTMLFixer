@@ -2,7 +2,8 @@
 <head>
 <link href="<%=request.getContextPath()%>/pages/style.css" rel="stylesheet">
 
-<script language="Javascript1.1" src="<%=request.getContextPath()%>/pages/e/javascripts/eIBS.jsp"> </SCRIPT>
+<script language="Javascript1.1" src="<%=request.getContextPath()%>/pages/e/javascripts/eIBS.jsp"> </SCRIPT> 
+ <script src="<%=request.getContextPath()%>/pages/e/javascripts/optMenu.jsp"></script>
 <script language="Javascript1.1" src="<%=request.getContextPath()%>/pages/e/javascripts/optMenu.jsp"> </SCRIPT>
 
 <jsp:useBean id="msgList" class="datapro.eibs.beans.EGL060001Message"  scope="session" />
@@ -92,7 +93,7 @@ function enter(){
     </tr>
     <tr> 
       <td valign="middle" align="center" height=33 width="49%"> 
-        <div align="right">Importe Débito : </div>
+        <div align="right">Importe Dï¿½bito : </div>
       </td>
       <td valign="middle" align="center" height=33 width="51%"> 
         <div align="left"> 
@@ -102,7 +103,7 @@ function enter(){
     </tr>
     <tr> 
       <td valign="middle" align="center" height=33 width="49%"> 
-        <div align="right">Importe Crédito : </div>
+        <div align="right">Importe Crï¿½dito : </div>
       </td>
       <td valign="middle" align="center" height=33 width="51%"> 
         <div align="left"> 

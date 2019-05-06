@@ -7,6 +7,7 @@ package main;
 
 import core.file.Cleaner;
 import core.file.FilePrototype;
+import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.List;
 
@@ -20,6 +21,7 @@ public class Project {
     protected String lastWorkingDirectory;
     protected String workingDirectory;
     protected FilePrototype prototype;
+    protected HashMap<String, FilePrototype> prototypesMap;
     protected List<Cleaner> cleaners;
 
     public Project(FilePrototype prototype, List<Cleaner> cleaners) {
@@ -28,7 +30,7 @@ public class Project {
     }
     
     public Project(){
-        this(new FilePrototype("", new LinkedList<>()), new LinkedList<>());
+        
     }
 
     public FilePrototype getPrototype() {
@@ -77,6 +79,14 @@ public class Project {
 
     public void setWorkingDirectory(String workingDirectory) {
         this.workingDirectory = workingDirectory;
+    }
+
+    public HashMap<String, FilePrototype> getPrototypesMap() {
+        return prototypesMap;
+    }
+
+    public void setPrototypesMap(HashMap<String, FilePrototype> prototypeMap) {
+        this.prototypesMap = prototypeMap;
     }
     
     

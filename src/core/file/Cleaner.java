@@ -16,6 +16,7 @@ public class Cleaner {
 
     protected String id ="";
     protected String description ="";
+    protected FilePrototype prototype;
 
     protected List<Rule> rules;
 
@@ -53,4 +54,13 @@ public class Cleaner {
     public String toString(){
         return id + " " + description;
     }
+
+    public FilePrototype getPrototype() {
+        return prototype;
+    }
+
+    public void setPrototype(FilePrototype prototype) {
+        this.prototype = prototype;
+    }
+    
 }

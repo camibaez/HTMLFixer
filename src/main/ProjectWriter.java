@@ -25,7 +25,15 @@ public class ProjectWriter {
      protected static Map writePrototype(FilePrototype prototype) {
             Map prototypeData = new LinkedHashMap(2);
             prototypeData.put("extensions", prototype.getExtensions());
-            prototypeData.put("expressions", prototype.getExpressions());
+            JSONArray expressionsData = new JSONArray();
+            prototype.getExpressions().forEach(e ->{
+                Map data = new LinkedHashMap();
+                data.put("pattern", e.getPattern().pattern());
+                data.put("flags", e.getPattern().flags());
+                data.put("condition", e.getCondition());
+                expressionsData.add(data);
+            });
+            prototypeData.put("expressions", expressionsData);
             return prototypeData;
         }
 

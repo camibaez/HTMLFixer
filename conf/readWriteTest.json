@@ -1,0 +1,46 @@
+{
+    "filePrototype": {
+        "extensions": "*.txt",
+        "expressions": [{
+                "pattern": "casa",
+                "flags": 0,
+                "condition": "+"
+            }, {
+                "pattern": "cass.*a",
+                "flags": 2,
+                "condition": "-"
+            }]
+    },
+    "cleaners": [{
+            "id": "",
+            "description": "",
+            "rules": [{
+                    "pattern": "juan.*perez",
+                    "replace": "jape",
+                    "flags": 2,
+                    "ruleClass": "core.rules.ReplaceText"
+                }, {
+                    "pattern": "tes?1",
+                    "replace": "tesas",
+                    "flags": 0,
+                    "ruleClass": "core.rules.ReplaceText"
+                }]
+        }, {
+            "id": "",
+            "description": "",
+            "rules": [{
+                    "pattern": "juan.*perez",
+                    "replace": "jape",
+                    "flags": 2,
+                    "ruleClass": "core.rules.ReplaceText"
+                }, {
+                    "pattern": "tes?1",
+                    "replace": "tesas",
+                    "flags": 0,
+                    "ruleClass": "core.rules.ReplaceText"
+                }]
+        }],
+    "lastWorkingDirectory": null,
+    "name": null,
+    "description": null
+}

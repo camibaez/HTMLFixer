@@ -6,25 +6,31 @@
 package main;
 
 import core.file.Cleaner;
+import core.file.ConditionalPattern;
 import core.file.FilePrototype;
 import core.rules.ReplaceText;
 import core.rules.Rule;
+import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
+import jdk.nashorn.internal.runtime.PrototypeObject;
 import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
+import org.json.simple.parser.JSONParser;
 
 /**
  *
  * @author cbaez
  */
 public class ProjectReader {
+    public static HashMap<String, FilePrototype> prototypesMap;
     public static Project readProject(JSONObject jsonObject) {
             Project project = new Project();
             project.setName((String) jsonObject.get("name"));
             project.setDescription((String) jsonObject.get("description"));
             project.setLastWorkingDirectory((String) jsonObject.get("lastWorkingDirectory"));
+            
             return project;
         }
 
@@ -47,15 +53,32 @@ public class ProjectReader {
             return rules;
         }
 
-        public static FilePrototype readPrototype(JSONObject jsonObject) {
-            Map prototypeData = (Map) jsonObject.get("filePrototype");
+        public static HashMap<String, FilePrototype> readPrototypes(JSONObject o){
+            JSONArray prototypesData = (JSONArray) o.get("prototypes");
+            List<FilePrototype> prototypes = new LinkedList<>();
+            prototypesData.forEach(e -> {
+                FilePrototype prototype = readPrototype((Map) e);
+                prototypesMap.put(prototype.getId(), prototype);
+                
+            });
+        }
+        
+        
+        public static FilePrototype readPrototype(Map prototypeData) {
             String extensions = (String) prototypeData.get("extensions");
-            List<String> expressions = new LinkedList<>();
+            List<ConditionalPattern> expressions = new LinkedList<>();
             JSONArray expressionsData = (JSONArray) prototypeData.get("expressions");
             expressionsData.forEach((Object e) -> {
-                expressions.add((String) e);
+                Map map = (Map) e;
+                String condition = (String) map.get("condition");
+                String pattern = (String) map.get("pattern");
+                int flags = ((Long) map.get("flags")).intValue();
+                expressions.add(ConditionalPattern.compile(pattern, flags, condition));
+                       
             });
-            return new FilePrototype(extensions, expressions);
+            FilePrototype prototype = new FilePrototype(extensions, expressions);
+            prototype.setId((String) prototypeData.get("id"));
+            return prototype;
         }
 
         public static List<Cleaner> readCleaners(JSONObject json) {
@@ -66,10 +89,16 @@ public class ProjectReader {
                 String desc = (String) ((Map) c).get("description");
                 JSONArray rulesData = (JSONArray) ((Map) c).get("rules");
                 List<Rule> rules = readRules(rulesData);
+                
                 Cleaner cleaner = new Cleaner(rules);
                 cleaner.setId(id);
                 cleaner.setDescription(desc);
+                String prototypeId = (String) ((Map)c).get("prototype");
+                if(prototypeId != null)
+                    cleaner.setPrototype(prototypesMap.get(prototypeId));
                 cleaners.add(cleaner);
+                
+                
             });
             return cleaners;
         }

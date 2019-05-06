@@ -17,7 +17,8 @@ Product
 <jsp:useBean id= "currUser" class= "datapro.eibs.beans.ESS0030DSMessage"  scope="session" />
 
 
-<script language="Javascript1.1" src="<%=request.getContextPath()%>/pages/e/javascripts/eIBS.jsp"> </SCRIPT>
+<script language="Javascript1.1" src="<%=request.getContextPath()%>/pages/e/javascripts/eIBS.jsp"> </SCRIPT> 
+ <script src="<%=request.getContextPath()%>/pages/e/javascripts/optMenu.jsp"></script>
 <script language="Javascript1.1" src="<%=request.getContextPath()%>/pages/e/javascripts/optMenu.jsp"> </SCRIPT>
 
 <%
@@ -1083,7 +1084,7 @@ document.onclick= hideAMT;
 					<OPTION value="2"
 						<%if (msgList.getE01PLTUPZ().equals("2")) { out.print("selected"); }%>>Mes(es)</OPTION>
 					<OPTION value="3"
-						<%if (msgList.getE01PLTUPZ().equals("3")) { out.print("selected"); }%>>Año(s)</OPTION>
+						<%if (msgList.getE01PLTUPZ().equals("3")) { out.print("selected"); }%>>Aï¿½o(s)</OPTION>
 				</SELECT>
 				 
 				 </TD>  

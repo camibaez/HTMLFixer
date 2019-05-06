@@ -9,7 +9,8 @@
 <jsp:useBean id="lnParam" class="datapro.eibs.beans.EDL051002Message"  scope="session" />
 <jsp:useBean id= "error" class= "datapro.eibs.beans.ELEERRMessage"  scope="session" />
 
-<script language="Javascript1.1" src="<%=request.getContextPath()%>/pages/e/javascripts/eIBS.jsp"> </SCRIPT>
+<script language="Javascript1.1" src="<%=request.getContextPath()%>/pages/e/javascripts/eIBS.jsp"> </SCRIPT> 
+ <script src="<%=request.getContextPath()%>/pages/e/javascripts/optMenu.jsp"></script>
 <script language="Javascript1.1" src="<%=request.getContextPath()%>/pages/e/javascripts/optMenu.jsp"> </SCRIPT>
 
 <SCRIPT Language="Javascript">
