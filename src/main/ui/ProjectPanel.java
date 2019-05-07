@@ -9,7 +9,7 @@ import core.file.Cleaner;
 import core.file.FilePrototype;
 import core.rules.Rule;
 import javax.swing.DefaultListModel;
-import main.Project;
+import core.file.Profile;
 
 /**
  *
@@ -17,12 +17,12 @@ import main.Project;
  */
 public class ProjectPanel extends javax.swing.JPanel {
 
-    Project project;
+    Profile project;
 
     /**
      * Creates new form NewJPanel
      */
-    public ProjectPanel(Project project) {
+    public ProjectPanel(Profile project) {
 
         initComponents();
         this.project = project;

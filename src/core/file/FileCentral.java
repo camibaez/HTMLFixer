@@ -5,24 +5,48 @@
  */
 package core.file;
 
-import java.io.File;
-import java.util.LinkedList;
-import java.util.List;
+import java.nio.file.Path;
+import java.util.HashMap;
+import java.util.Map;
+import java.util.Set;
+import java.util.TreeSet;
 
 /**
  *
  * @author cbaez
  */
-public class FileCentral {
-    private LinkedList<File> matchedFiles = new LinkedList<>();
+public class FileCentral{
+    protected Profile project;
+    protected Map<FilePrototype, Set<Path>> prototypeFileMap;
 
-    public List<File> getMatchedFiles() {
-        return matchedFiles;
-    }
-
-    public void setMatchedFiles(LinkedList<File> matchedFiles) {
-        this.matchedFiles = matchedFiles;
+    
+    public FileCentral(Profile project){
+        this.project = project;
+        prototypeFileMap = new HashMap<>();
     }
     
+    public void addFilePrototype(FilePrototype p){
+        if(!prototypeFileMap.containsKey(p))
+            prototypeFileMap.put(p, new TreeSet<>());
+         
+    }
+    
+    public void linkFileToPrototype(FilePrototype p, Path f){
+       prototypeFileMap.get(p).add(f);
+    }
 
+    
+    public Set<Path> getMatchedFiles() {
+        return prototypeFileMap.get(project.getPrototype());
+    }
+    
+    public boolean belongsTo(FilePrototype prototype, Path f){
+        return prototypeFileMap.get(prototype).contains(f);
+    }
+    
+    public Map<FilePrototype, Set<Path>> getPrototypeFileMap() {
+        return prototypeFileMap;
+    }
+
+    
 }

@@ -9,7 +9,7 @@ import java.io.File;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.JFileChooser;
-import main.Project;
+import core.file.Profile;
 import main.ProjectAdministration;
 
 /**
@@ -93,7 +93,7 @@ public class MainWindow extends javax.swing.JFrame {
 
         if (returnVal == JFileChooser.APPROVE_OPTION) {
             File file = fc.getSelectedFile();
-            Project project = ProjectAdministration.loadProject(file.getAbsolutePath());
+            Profile project = ProjectAdministration.loadProject(file.getAbsolutePath());
             jTabbedPane2.add(project.getName(), new ProjectPanel(project));
         } else {
             Logger.getLogger(MainWindow.class.getName()).log(Level.SEVERE, "Open command cancelled by user.");

@@ -14,7 +14,10 @@ import java.io.IOException;
 import java.io.OutputStreamWriter;
 import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
+import java.nio.file.Path;
 import java.util.List;
+import java.util.Map;
+import java.util.Set;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -23,34 +26,39 @@ import java.util.logging.Logger;
  * @author cbaez
  */
 public class FileProcessor {
-    protected int processed;
-    
-    
-    protected FileCentral fileCentral;
+
+    protected int processedCount;
+    protected Profile project;
     private List<Cleaner> cleaners;
 
-    public FileProcessor(FileCentral fileCentral, List<Cleaner> cleaners) {
-        this.fileCentral = fileCentral;
+    public FileProcessor(Profile project, List<Cleaner> cleaners) {
+        this.project = project;
         this.cleaners = cleaners;
     }
 
-    public String processFile(File file) throws IOException {
-        Object result = new String(Files.readAllBytes(file.toPath()));
-        for(Cleaner cleaner: cleaners){
-             result = cleaner.clean(result);
+    public String processFile(Path file) throws IOException {
+        Object result = null;
+        for (Cleaner cleaner : cleaners) {
+            if (project.getFileCentral().belongsTo(cleaner.getPrototype(), file)) {
+                if (result == null) {
+                    result = new String(Files.readAllBytes(file));
+                }
+                result = cleaner.clean(result);
+            }
         }
-        
+        if (result == null) {
+            return "";
+        }
         return TypeTransformer.transformForType(String.class, result);
     }
 
     public void processFiles() {
-        for (File f : fileCentral.getMatchedFiles()) {
+        for (Path f : project.getFileCentral().getMatchedFiles()) {
             try {
                 String result = processFile(f);
-                //System.out.println(result);
-                
+
                 saveFile(result, f);
-                processed++;
+                processedCount++;
 
             } catch (IOException ex) {
                 Logger.getLogger(FileProcessor.class.getName()).log(Level.SEVERE, null, ex);
@@ -58,20 +66,13 @@ public class FileProcessor {
         }
     }
 
-    public void saveFile(String result, File f) throws FileNotFoundException, IOException {
+    public void saveFile(String result, Path p) throws FileNotFoundException, IOException {
+        File f = p.toFile();
         try (BufferedWriter writer = new BufferedWriter(
                 new OutputStreamWriter(new FileOutputStream(f), StandardCharsets.UTF_8)
         )) {
             writer.write(result);
         }
-    }
-
-    public FileCentral getFileCentral() {
-        return fileCentral;
-    }
-
-    public void setFileCentral(FileCentral fileCentral) {
-        this.fileCentral = fileCentral;
     }
 
     public List<Cleaner> getCleaners() {
@@ -83,9 +84,7 @@ public class FileProcessor {
     }
 
     public int getProcessed() {
-        return processed;
+        return processedCount;
     }
-    
-    
 
 }

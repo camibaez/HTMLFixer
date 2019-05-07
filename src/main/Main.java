@@ -5,6 +5,7 @@
  */
 package main;
 
+import core.file.Profile;
 import core.file.FileCentral;
 import core.file.FileMatcher;
 import core.file.FileProcessor;
@@ -20,11 +21,14 @@ import java.nio.file.Paths;
  */
 public class Main {
 
-    /**
-     * @param args the command line arguments
-     * @throws java.io.IOException
-     */
     public static void main(String[] args) throws IOException {
+        //mainReal(args);
+        mainTest(args);
+
+    }
+
+    /*
+    public static void mainReal(String[] args) throws IOException {
         System.out.println("HTMLFixer v0.1");
         System.out.println("Run project (run $projectname)");
 
@@ -49,14 +53,14 @@ public class Main {
                     project.setWorkingDirectory(path);
                     System.out.println("Starting searching");
                     long time = System.currentTimeMillis();
-                    FileMatcher finder = new FileMatcher(new FileCentral(), project.getPrototype());
+                    FileMatcher finder = new FileMatcher(new ProjectFileCentral(), project.getPrototype());
                     Files.walkFileTree(Paths.get(path), finder);
                     finder.getFileCentral().getMatchedFiles().forEach(f -> {
                         System.out.println(f.getAbsolutePath());
                     });
-                    System.out.println("Serching ended. Matched = " +  
-                                        finder.getFileCentral().getMatchedFiles().size()  + 
-                                        " Time = " + (System.currentTimeMillis() - time)
+                    System.out.println("Serching ended. Matched = "
+                            + finder.getFileCentral().getMatchedFiles().size()
+                            + " Time = " + (System.currentTimeMillis() - time)
                     );
 
                     System.out.println("Wanna process? (y/n) (leave blank for no) ");
@@ -65,7 +69,7 @@ public class Main {
                     if (!command.isEmpty()) {
                         System.out.println("Starting replace");
                         time = System.currentTimeMillis();
-                        FileProcessor processor =  new FileProcessor(finder.getFileCentral(), project.getCleaners());
+                        FileProcessor processor = new FileProcessor(finder.getFileCentral(), project.getCleaners());
                         processor.processFiles();
                         System.out.println("Files processed. Processed = " + processor.getProcessed() + "Time = " + (System.currentTimeMillis() - time));
                     }
@@ -73,7 +77,7 @@ public class Main {
                 } else {
                     System.out.println("Unknown command '" + command + "'");
                 }
-            }catch(Exception e){
+            } catch (Exception e) {
                 System.out.println("Error executing the program;");
             }
 
@@ -82,4 +86,55 @@ public class Main {
         //ProjectAdministration.saveProject(project, "conf\\clenaer1.json");
     }
 
+    */
+    
+    public static void mainTest(String[] args) throws IOException {
+        System.out.println("HTMLFixer v0.1");
+        System.out.println("Run project (run $projectname)");
+
+        BufferedReader reader = new BufferedReader(new InputStreamReader(System.in));
+        while (true) {
+            try {
+
+                String projectName = "proj1";
+
+                Profile project = ProjectAdministration.loadProject("conf\\" + projectName + ".json");
+                String path = project.getLastWorkingDirectory();
+                project.setWorkingDirectory(path);
+                System.out.println("Starting searching");
+                long time = System.currentTimeMillis();
+                
+               
+                
+                FileMatcher finder = new FileMatcher(project);
+                Files.walkFileTree(Paths.get(path), finder);
+                project.getFileCentral().getMatchedFiles().forEach(f -> {
+                    System.out.println(f.toFile().getAbsolutePath());
+                });
+                System.out.println("Serching ended. Matched = "
+                        + project.getFileCentral().getMatchedFiles().size()
+                        + " Time = " + (System.currentTimeMillis() - time)
+                );
+
+                System.out.println("Wanna process? (y/n) (leave blank for no) ");
+                System.out.print(">");
+                String command = reader.readLine().trim();
+                if (!command.isEmpty()) {
+                    System.out.println("Starting replace");
+                    time = System.currentTimeMillis();
+                    FileProcessor processor = new FileProcessor(project, project.getCleaners());
+                    processor.processFiles();
+                    System.out.println("Files processed. Processed = " + processor.getProcessed() + "Time = " + (System.currentTimeMillis() - time));
+                }
+
+            } catch (Exception e) {
+                System.out.println("Error executing the program;");
+                e.printStackTrace();
+
+            }
+
+        }
+
+        //ProjectAdministration.saveProject(project, "conf\\clenaer1.json");
+    }
 }

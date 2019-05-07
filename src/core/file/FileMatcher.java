@@ -15,6 +15,7 @@ import java.nio.file.Path;
 import java.nio.file.PathMatcher;
 import java.nio.file.SimpleFileVisitor;
 import java.nio.file.attribute.BasicFileAttributes;
+import java.util.Collection;
 import java.util.Iterator;
 import java.util.LinkedList;
 import java.util.List;
@@ -26,15 +27,13 @@ import java.util.logging.Logger;
  */
 public class FileMatcher extends SimpleFileVisitor<Path> {
 
+    protected Profile project;
+
     private final PathMatcher matcher;
-    protected FileCentral fileCentral;
 
-    private final FilePrototype filePrototype;
-
-    public FileMatcher(FileCentral fileCentral, FilePrototype prototype) {
-        this.fileCentral = fileCentral;
-        filePrototype = prototype;
-        matcher = FileSystems.getDefault().getPathMatcher("glob:" + filePrototype.getExtensions());
+    public FileMatcher(Profile project) {
+        this.project = project;
+        matcher = FileSystems.getDefault().getPathMatcher("glob:" + project.getPrototype().getExtensions());
     }
 
     protected boolean checkFileName(Path file) {
@@ -42,10 +41,11 @@ public class FileMatcher extends SimpleFileVisitor<Path> {
         return name != null && matcher.matches(name);
     }
 
-    protected boolean checkContent(Path file) throws IOException {
-        if(filePrototype.expressions == null || filePrototype.expressions.isEmpty())
+    protected boolean checkContent(FilePrototype prototype, Path file) throws IOException {
+        if (prototype.expressions == null || prototype.expressions.isEmpty()) {
             return true;
-        List<ConditionalPattern> expressions = new LinkedList<>(filePrototype.getExpressions());
+        }
+        List<ConditionalPattern> expressions = new LinkedList<>(prototype.getExpressions());
 
         try (BufferedReader reader = new BufferedReader(new FileReader(file.toFile()))) {
             String line = reader.readLine();
@@ -54,24 +54,36 @@ public class FileMatcher extends SimpleFileVisitor<Path> {
                 while (iterator.hasNext()) {
                     ConditionalPattern p = iterator.next();
                     int res = p.matches(line);
-                    if(res == -1)
+                    if (res == -1) {
                         iterator.remove();
-                    if(res == 1)
+                    }
+                    if (res == 1) {
                         iterator.remove();
+                    }
                 }
                 // read next line
                 line = reader.readLine();
             }
         }
-        
+
         boolean failed = false;
-        for(ConditionalPattern p: filePrototype.getExpressions()){
+        for (ConditionalPattern p : prototype.getExpressions()) {
             failed |= (p.finalState() == -1);
             p.restart();
         }
-        
-        
+
         return !failed;
+    }
+
+    public boolean checkPrototype(FilePrototype prototype, Path file) throws IOException {
+        if (!prototype.getExtensions().isEmpty() && !checkFileName(file)) {
+            return false;
+        }
+        if (!prototype.getExpressions().isEmpty() && !checkContent(prototype, file)) {
+            return false;
+        }
+
+        return true;
     }
 
     // Invoke the pattern matching
@@ -79,12 +91,21 @@ public class FileMatcher extends SimpleFileVisitor<Path> {
     @Override
     public FileVisitResult visitFile(Path file, BasicFileAttributes attrs) {
         try {
-            if (!filePrototype.extensions.isEmpty() && !checkFileName(file))
-                return CONTINUE;
-            if(!filePrototype.expressions.isEmpty() && !checkContent(file))
+            FilePrototype basicPrototype = project.getPrototype();
+            if(!checkPrototype(basicPrototype, file))
                 return CONTINUE;
 
-            fileCentral.getMatchedFiles().add(file.toFile());
+            project.getFileCentral().addFilePrototype(basicPrototype);
+            project.getFileCentral().linkFileToPrototype(basicPrototype, file);
+
+            Collection<FilePrototype> prototypesList = project.getPrototypesMap().values();
+            prototypesList.remove(basicPrototype);
+            for (FilePrototype p : prototypesList) {
+                if(checkPrototype(basicPrototype, file)){
+                    project.getFileCentral().addFilePrototype(p);
+                    project.getFileCentral().linkFileToPrototype(p, file);
+                }
+            }
         } catch (IOException ex) {
             Logger.getLogger(FileMatcher.class.getName()).log(Level.SEVERE, null, ex);
         }
@@ -103,9 +124,5 @@ public class FileMatcher extends SimpleFileVisitor<Path> {
     public FileVisitResult visitFileFailed(Path file, IOException exc) {
         System.err.println(exc);
         return CONTINUE;
-    }
-
-    public FileCentral getFileCentral() {
-        return fileCentral;
     }
 }

@@ -5,6 +5,7 @@
  */
 package main;
 
+import core.file.Profile;
 import core.file.Cleaner;
 import core.file.FilePrototype;
 import java.io.FileNotFoundException;
@@ -27,14 +28,14 @@ import org.json.simple.parser.ParseException;
  */
 public class ProjectAdministration {
 
-    public static void saveProject(Project project, String path) throws FileNotFoundException {
+    public static void saveProject(Profile project, String path) throws FileNotFoundException {
 
         JSONObject jo = new JSONObject();
 
         jo.put("name", project.getName());
         jo.put("description", project.getDescription());
         jo.put("lastWorkingDirectory", project.getWorkingDirectory());
-        jo.put("filePrototype", ProjectWriter.writePrototype(project.getPrototype()));
+        jo.put("prototypes", ProjectWriter.writePrototypes(project.getPrototypesMap()));
 
         JSONArray cleanersArray = new JSONArray();
         for (Cleaner cleaner : project.getCleaners()) {
@@ -54,17 +55,17 @@ public class ProjectAdministration {
 
     }
 
-    public static Project loadProject(String path) {
+    public static Profile loadProject(String path) {
         JSONParser parser = new JSONParser();
 
         try (Reader reader = new FileReader(path)) {
-
             JSONObject jsonObject = (JSONObject) parser.parse(reader);
-            Project project = ProjectReader.readProject(jsonObject);
-            FilePrototype prototype = ProjectReader.readPrototype(jsonObject);
-            List<Cleaner> cleaners = ProjectReader.readCleaners(jsonObject);
+            
+            Profile project = ProjectReader.readProject(jsonObject);
+            project.setPrototypesMap(ProjectReader.readPrototypes(jsonObject));
+            
 
-            project.setPrototype(prototype);
+            List<Cleaner> cleaners = ProjectReader.readCleaners(jsonObject);
             project.setCleaners(cleaners);
 
             return project;

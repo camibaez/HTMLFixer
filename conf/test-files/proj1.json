@@ -1,0 +1,54 @@
+{
+    "prototypes": [{
+        "id": "base",
+        "extensions": "*.jsp",
+        "expressions": [{"pattern" : ".*oncontextmenu=\"showPopUp\\(.*", "flags" : 2, "condition" : "+"}]
+    },
+    {
+        "id": "second",
+        "extensions": "*.jsp",
+        "expressions": [{"pattern" : "testpattern", "flags" : 2, "condition" : "+"}]
+    },
+    {
+        "id": "third",
+        "extensions": "*.txt",
+        "expressions": [{"pattern" : "test2patttern", "flags" : 2, "condition" : "+"}]
+    }
+    ],
+    "cleaners": [{
+            "id": "c-2",
+            "description": "",
+            "rules": [{
+                    "pattern": "(<script.*/pages/e/javascripts/eIBS\\.jsp\".*>.*</script>)",
+                    "replace": "$1 \n <script src=\"<%=request.getContextPath()%>/pages/e/javascripts/optMenu.jsp\"></script>",
+                    "flags": 2,
+                    "ruleClass": "core.rules.ReplaceText"
+                }],
+            "prototype" : "second"
+        },
+        {
+            "id": "c-3",
+            "description": "",
+            "rules": [{
+                    "pattern": "(<script.*/pages/e/javascripts/eIBS\\.jsp\".*>.*</script>)",
+                    "replace": "$1 \n <script src=\"<%=request.getContextPath()%>/pages/e/javascripts/optMenu.jsp\"></script>",
+                    "flags": 2,
+                    "ruleClass": "core.rules.ReplaceText"
+                }],
+            "prototype" : "third"
+        },
+        {
+            "id": "c-4",
+            "description": "",
+            "rules": [{
+                    "pattern": "(<script.*/pages/e/javascripts/eIBS\\.jsp\".*>.*</script>)",
+                    "replace": "$1 \n <script src=\"<%=request.getContextPath()%>/pages/e/javascripts/optMenu.jsp\"></script>",
+                    "flags": 2,
+                    "ruleClass": "core.rules.ReplaceText"
+                }],
+            "prototype" : "third"
+        }],
+    "lastWorkingDirectory": "conf\\test-files",
+    "name": null,
+    "description": null
+}

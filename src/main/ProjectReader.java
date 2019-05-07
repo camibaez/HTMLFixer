@@ -5,6 +5,7 @@
  */
 package main;
 
+import core.file.Profile;
 import core.file.Cleaner;
 import core.file.ConditionalPattern;
 import core.file.FilePrototype;
@@ -14,19 +15,17 @@ import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
-import jdk.nashorn.internal.runtime.PrototypeObject;
 import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
-import org.json.simple.parser.JSONParser;
 
 /**
  *
  * @author cbaez
  */
 public class ProjectReader {
-    public static HashMap<String, FilePrototype> prototypesMap;
-    public static Project readProject(JSONObject jsonObject) {
-            Project project = new Project();
+    public static HashMap<String, FilePrototype> prototypesMap = new HashMap<>();
+    public static Profile readProject(JSONObject jsonObject) {
+            Profile project = new Profile();
             project.setName((String) jsonObject.get("name"));
             project.setDescription((String) jsonObject.get("description"));
             project.setLastWorkingDirectory((String) jsonObject.get("lastWorkingDirectory"));
@@ -59,8 +58,9 @@ public class ProjectReader {
             prototypesData.forEach(e -> {
                 FilePrototype prototype = readPrototype((Map) e);
                 prototypesMap.put(prototype.getId(), prototype);
-                
             });
+            
+            return prototypesMap;
         }
         
         

@@ -11,6 +11,7 @@ import core.rules.ReplaceText;
 import core.rules.Rule;
 import java.util.LinkedHashMap;
 import java.util.Map;
+import java.util.Map.Entry;
 import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
 
@@ -19,7 +20,14 @@ import org.json.simple.JSONObject;
  * @author cbaez
  */
 public class ProjectWriter {
-    
+    protected static JSONArray writePrototypes(Map<String, FilePrototype> map){
+        JSONArray prototypesData = new JSONArray();
+        map.values().forEach(e -> {
+            prototypesData.add(writePrototype(e));
+        });
+        
+        return prototypesData;
+    }
     
     
      protected static Map writePrototype(FilePrototype prototype) {
@@ -34,6 +42,7 @@ public class ProjectWriter {
                 expressionsData.add(data);
             });
             prototypeData.put("expressions", expressionsData);
+            prototypeData.put("id", prototype.getId());
             return prototypeData;
         }
 
@@ -53,6 +62,8 @@ public class ProjectWriter {
             cleanerData.put("id", cleaner.getId());
             cleanerData.put("description", cleaner.getDescription());
             cleanerData.put("rules", rules);
+            if(cleaner.getPrototype() != null)
+                cleanerData.put("prototype", cleaner.getPrototype().getId());
             return cleanerData;
         }
 

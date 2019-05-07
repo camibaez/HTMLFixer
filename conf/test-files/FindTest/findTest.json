@@ -1,0 +1,21 @@
+{
+    "prototypes": [{
+            "extensions": "*.txt",
+            "expressions": [{
+                    "pattern": ".*casa.*",
+                    "flags": 2,
+                    "condition": "+"
+                }, {
+                    "pattern": ".*calle.*",
+                    "flags": 2,
+                    "condition": "-"
+                }],
+            "id": "base"
+        }],
+    "cleaners": [],
+    "lastWorkingDirectory": null,
+    "name": null,
+    "description": null
+}
+
+
