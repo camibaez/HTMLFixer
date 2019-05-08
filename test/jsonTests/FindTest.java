@@ -5,8 +5,6 @@
  */
 package jsonTests;
 
-import core.file.ConditionalPattern;
-import core.file.FileCentral;
 import core.file.FileMatcher;
 import java.io.IOException;
 import java.nio.file.Files;

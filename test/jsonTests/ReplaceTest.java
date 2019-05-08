@@ -5,23 +5,61 @@
  */
 package jsonTests;
 
-import core.file.FileCentral;
 import core.file.FileMatcher;
-import java.io.IOException;
+import core.file.FileProcessor;
+import core.file.FilePrototype;
 import java.nio.file.Files;
 import java.nio.file.Paths;
 import core.file.Profile;
+import java.io.IOException;
+import java.nio.file.Path;
+import java.util.Map;
+import java.util.Set;
 import main.ProjectAdministration;
-import static org.junit.Assert.assertEquals;
 import org.junit.Test;
+import static org.junit.Assert.*;
+import org.junit.Before;
 
 /**
  *
  * @author cbaez
  */
-public class ReplaceTest extends HTMLTest{
+public class ReplaceTest extends HTMLTest {
+
+    Profile profile;
+    String workspace;
+    String projectPath;
+
+    @Before
+    public void setUp() throws IOException {
+        projectPath = getTestPath() + "replaceTest.json";
+        workspace = getTestPath() + "files";
+        profile = ProjectAdministration.loadProject(projectPath);
+
+        FileMatcher finder = new FileMatcher(profile);
+        Files.walkFileTree(Paths.get(workspace), finder);
+    }
+
     @Test
-    public void findIncluding() throws IOException {
-       
+    public void findingTest() throws Exception {
+        assertEquals(2, profile.getFileCentral().getMatchedFiles().size());
+
+        Map<FilePrototype, Set<Path>> prototypeFileMap = profile.getFileCentral().getPrototypeFileMap();
+        System.out.println(profile.getPrototypesMap());
+
+        FilePrototype p = profile.getPrototypesMap().get("base");
+        assertNotNull(p);
+        assertEquals(2, prototypeFileMap.get(p).size());
+
+        p = profile.getPrototypesMap().get("excluder");
+        assertNotNull(p);
+        assertEquals(2, prototypeFileMap.get(p).size());
+
+    }
+
+    @Test
+    public void replaceTest() {
+        FileProcessor processor = new FileProcessor(profile, profile.getCleaners());
+        processor.processFiles();
     }
 }

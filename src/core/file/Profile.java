@@ -5,11 +5,6 @@
  */
 package core.file;
 
-import core.file.Cleaner;
-import core.file.FileCentral;
-import core.file.FilePrototype;
-import java.util.HashMap;
-import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
 
@@ -34,7 +29,7 @@ public class Profile {
     }
     
     public Profile(){
-        
+        this.fileCentral = new FileCentral(this);
     }
 
     public FilePrototype getPrototype() {
