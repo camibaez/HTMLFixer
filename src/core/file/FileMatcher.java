@@ -103,7 +103,7 @@ public class FileMatcher extends SimpleFileVisitor<Path> {
             for (FilePrototype p : prototypesList) {
                 if(p == basicPrototype)
                     continue;
-                if(checkPrototype(basicPrototype, file)){
+                if(checkPrototype(p, file)){
                     project.getFileCentral().addFilePrototype(p);
                     project.getFileCentral().linkFileToPrototype(p, file);
                 }

@@ -41,7 +41,7 @@ public class ReplaceTest extends HTMLTest {
     }
 
     @Test
-    public void findingTest() throws Exception {
+    public void findReplaceTest() throws Exception {
         assertEquals(2, profile.getFileCentral().getMatchedFiles().size());
 
         Map<FilePrototype, Set<Path>> prototypeFileMap = profile.getFileCentral().getPrototypeFileMap();
@@ -53,13 +53,12 @@ public class ReplaceTest extends HTMLTest {
 
         p = profile.getPrototypesMap().get("excluder");
         assertNotNull(p);
-        assertEquals(2, prototypeFileMap.get(p).size());
-
-    }
-
-    @Test
-    public void replaceTest() {
+        assertEquals(1, prototypeFileMap.get(p).size());
+        
         FileProcessor processor = new FileProcessor(profile, profile.getCleaners());
         processor.processFiles();
+
     }
+
+   
 }

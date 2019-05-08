@@ -96,10 +96,10 @@ public class Main {
         while (true) {
             try {
 
-                String projectName = "proj1";
+                String projectName = "replaceTest";
 
-                Profile project = ProjectAdministration.loadProject("conf\\" + projectName + ".json");
-                String path = project.getLastWorkingDirectory();
+                Profile project = ProjectAdministration.loadProject("conf\\test-files\\ReplaceTest\\" + projectName + ".json");
+                String path = "conf\\test-files\\ReplaceTest\\files";
                 project.setWorkingDirectory(path);
                 System.out.println("Starting searching");
                 long time = System.currentTimeMillis();

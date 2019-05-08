@@ -30,7 +30,7 @@
             "description": "",
             "rules": [{
                     "pattern": "(.*)(aqui va una)(.*)",
-                    "replace": "$1 $2 escuela $3",
+                    "replace": "$1$2 escuela $3",
                     "flags": 2,
                     "ruleClass": "core.rules.ReplaceText"
                 }],

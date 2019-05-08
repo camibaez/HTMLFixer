@@ -39,12 +39,14 @@ public class FileProcessor {
     public String processFile(Path file) throws IOException {
         Object result = null;
         for (Cleaner cleaner : cleaners) {
-            if (project.getFileCentral().belongsTo(cleaner.getPrototype(), file)) {
-                if (result == null) {
-                    result = new String(Files.readAllBytes(file));
-                }
-                result = cleaner.clean(result);
+            if (cleaner.getPrototype() != null && !project.getFileCentral().belongsTo(cleaner.getPrototype(), file)) {
+                continue;
             }
+            if (result == null) {
+                result = new String(Files.readAllBytes(file));
+            }
+            result = cleaner.clean(result);
+
         }
         if (result == null) {
             return "";

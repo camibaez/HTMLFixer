@@ -15,7 +15,7 @@ import org.junit.runners.Suite;
  * @author cbaez
  */
 @RunWith(Suite.class)
-@Suite.SuiteClasses({jsonTests.ReadWriteTest.class, jsonTests.AssignPrototypesTest.class, jsonTests.FindTest.class})
+@Suite.SuiteClasses({jsonTests.ReadWriteTest.class, jsonTests.AssignPrototypesTest.class, jsonTests.FindTest.class, ReplaceTest.class})
 public class HTMLTestSuite {
 
     @Before
