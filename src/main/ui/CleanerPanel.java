@@ -8,6 +8,7 @@ package main.ui;
 import core.file.Cleaner;
 import core.file.Profile;
 import core.rules.ReplaceText;
+import java.awt.Color;
 import java.util.regex.Pattern;
 import javax.swing.DefaultComboBoxModel;
 import javax.swing.DefaultListModel;
@@ -150,6 +151,11 @@ public class CleanerPanel extends javax.swing.JPanel {
         jLabel4.setText("Rule:");
 
         jComboBox2.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
+        jComboBox2.addItemListener(new java.awt.event.ItemListener() {
+            public void itemStateChanged(java.awt.event.ItemEvent evt) {
+                jComboBox2ItemStateChanged(evt);
+            }
+        });
 
         jButton1.setText("Add");
         jButton1.addActionListener(new java.awt.event.ActionListener() {
@@ -212,6 +218,7 @@ public class CleanerPanel extends javax.swing.JPanel {
         jLabel5.setText("Pattern:");
 
         jTextArea1.setColumns(20);
+        jTextArea1.setFont(new java.awt.Font("Courier New", 0, 13)); // NOI18N
         jTextArea1.setRows(5);
         jTextArea1.addKeyListener(new java.awt.event.KeyAdapter() {
             public void keyReleased(java.awt.event.KeyEvent evt) {
@@ -223,6 +230,7 @@ public class CleanerPanel extends javax.swing.JPanel {
         jLabel7.setText("Replace:");
 
         jTextArea2.setColumns(20);
+        jTextArea2.setFont(new java.awt.Font("Courier New", 0, 13)); // NOI18N
         jTextArea2.setRows(5);
         jTextArea2.addKeyListener(new java.awt.event.KeyAdapter() {
             public void keyReleased(java.awt.event.KeyEvent evt) {
@@ -273,7 +281,7 @@ public class CleanerPanel extends javax.swing.JPanel {
                     .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jScrollPane2, javax.swing.GroupLayout.DEFAULT_SIZE, 137, Short.MAX_VALUE)
+                    .addComponent(jScrollPane2, javax.swing.GroupLayout.DEFAULT_SIZE, 152, Short.MAX_VALUE)
                     .addGroup(jPanel2Layout.createSequentialGroup()
                         .addComponent(jLabel7)
                         .addGap(0, 0, Short.MAX_VALUE))))
@@ -313,7 +321,14 @@ public class CleanerPanel extends javax.swing.JPanel {
 
     private void jTextField3KeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_jTextField3KeyReleased
         ReplaceText rule = (ReplaceText) jComboBox2.getSelectedItem();
-        rule.setPattern(Pattern.compile(rule.getPatternText(), Integer.parseInt(jTextField3.getText())));
+        try{
+            rule.setPattern(Pattern.compile(rule.getPatternText(), Integer.parseInt(jTextField3.getText())));
+            jTextField3.setForeground(Color.BLACK);
+        }catch(Exception e){
+            System.out.println("Error compiling pattern");
+            jTextField3.setForeground(Color.RED);
+        }
+        
     }//GEN-LAST:event_jTextField3KeyReleased
 
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
@@ -329,10 +344,11 @@ public class CleanerPanel extends javax.swing.JPanel {
         Pattern p = null;
         try{
             p = Pattern.compile(jTextArea1.getText(), rule.getPattern().flags());
-             rule.setPattern(p);
-             System.out.println("Success compiling pattern");
+            rule.setPattern(p);
+            jTextArea1.setForeground(Color.BLACK);
         }catch(Exception e){
             System.err.println("Malformed pattern in rule: " + rule );
+            jTextArea1.setForeground(Color.RED);
         }
        
     }//GEN-LAST:event_jTextArea1KeyReleased
@@ -345,6 +361,10 @@ public class CleanerPanel extends javax.swing.JPanel {
     private void jTextField2KeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_jTextField2KeyReleased
         cleaner.setDescription(jTextField2.getText());
     }//GEN-LAST:event_jTextField2KeyReleased
+
+    private void jComboBox2ItemStateChanged(java.awt.event.ItemEvent evt) {//GEN-FIRST:event_jComboBox2ItemStateChanged
+        loadRuleData((ReplaceText) jComboBox2.getSelectedItem());
+    }//GEN-LAST:event_jComboBox2ItemStateChanged
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables

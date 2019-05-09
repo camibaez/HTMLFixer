@@ -1,37 +1,80 @@
 {
-    "prototypes": [{
-        "id": "base",
-        "extensions": "*.jsp",
-        "expressions": [{"pattern" : ".*oncontextmenu=\"showPopUp\\(.*", "flags" : 2, "condition" : "+"}]
+  "prototypes": [
+    {
+      "extensions": "*.jsp",
+      "expressions": [
+        {
+          "pattern": ".*<script.*src=\".*javascripts/optMenu\\.jsp\".*>.*</script>.*",
+          "flags": 2,
+          "condition": "-"
+        }
+      ],
+      "id": "excluderOptMenu"
     },
     {
-        "id": "excluder",
-        "extensions": "*.jsp",
-        "expressions": [{"pattern" : ".*<script.*src=\".*javascripts/optMenu\\.jsp\".*>.*</script>.*", "flags" : 2, "condition" : "-"}]
+      "extensions": "*.jsp",
+      "expressions": [
+        {
+          "pattern": ".*oncontextmenu=\"showPopUp\\(.*",
+          "flags": 2,
+          "condition": "+"
+        }
+      ],
+      "id": "base"
     }
-    ],
-    "cleaners": [{
-            "id": "c1",
-            "description": "",
-            "rules": [{
-                    "pattern": "(<script.*/pages/e/javascripts/eIBS\\.jsp\".*>.*</script>)",
-                    "replace": "$1 \n<script src=\"<%=request.getContextPath()%>/pages/e/javascripts/optMenu.jsp\"></script>",
-                    "flags": 2,
-                    "ruleClass": "core.rules.ReplaceText"
-                }],
-            "prototype" : "excluder"
+  ],
+  "cleaners": [
+    {
+      "id": "appendOptMenu",
+      "description": "Add reference to optMenu.js in the header.",
+      "rules": [
+        {
+          "pattern": "(<script.*/pages/e/javascripts/eIBS\\.jsp\".*>.*</script>)",
+          "replace": "$1\n<script src=\"<%=request.getContextPath()%>/pages/e/javascripts/optMenu.jsp\"></script>",
+          "flags": 2,
+          "ruleClass": "core.rules.ReplaceText"
+        }
+      ],
+      "prototype": "excluderOptMenu"
+    },
+    {
+      "id": "eventChanger",
+      "description": "Changes the use of oncontextmenu for on mousedown.",
+      "rules": [
+        {
+          "pattern": "(oncontextmenu=\"showPopUp\\()",
+          "replace": "class=\"context-menu-help\" onmousedown=\"showPopUp(",
+          "flags": 2,
+          "ruleClass": "core.rules.ReplaceText"
         },
         {
-            "id": "c2",
-            "description": "",
-            "rules": [{
-                    "pattern": "(oncontextmenu=\"showPopUp\\()",
-                    "replace": "class=\"context-menu-help\" onmousedown=\"showPopUp(",
-                    "flags": 2,
-                    "ruleClass": "core.rules.ReplaceText"
-                }]
-        }],
-    "lastWorkingDirectory": "conf\\test-files\\BigChangeTest\\files\\",
-    "name": null,
-    "description": null
+          "pattern": ".*builtHPopUp\\(.*",
+          "replace": "//builtHPopUp(",
+          "flags": 0,
+          "ruleClass": "core.rules.ReplaceText"
+        },
+        {
+          "pattern": ".*showPopUpHelp\\(\\).*",
+          "replace": "//showPopUpHelp()",
+          "flags": 0,
+          "ruleClass": "core.rules.ReplaceText"
+        }
+      ]
+    },
+    {
+      "id": "addContextMenuCss",
+      "description": "Add link to jquery.contextmenu.css",
+      "rules": [
+        {
+          "pattern": "(<link.*href=\".*/pages/style.css\".*rel=\"stylesheet\".*>)",
+          "replace": "<link href=\"<%=request.getContextPath()%>/jquery/plugins/contextMenu/css/jquery.contextMenu.css\" rel=\"stylesheet\" type=\"text/css\" />\n$1",
+          "flags": 2,
+          "ruleClass": "core.rules.ReplaceText"
+        }
+      ]
+    }
+  ],
+  "lastWorkingDirectory": null,
+  "name": "Proj1",
+  "description": null
 }
