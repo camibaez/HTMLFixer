@@ -69,9 +69,12 @@ public class ProjectWriter {
 
         public static Map writeReplaceTextRule(ReplaceText rule) {
             Map ruleData = new LinkedHashMap(3);
-            ruleData.put("pattern", rule.getPattern());
+            ruleData.put("pattern", rule.getPatternText());
             ruleData.put("replace", rule.getReplace());
             ruleData.put("flags", rule.getFlags());
             return ruleData;
         }
+        
+        
+        
 }

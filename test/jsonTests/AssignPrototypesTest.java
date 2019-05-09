@@ -36,7 +36,7 @@ public class AssignPrototypesTest extends HTMLTest{
         Map<String, FilePrototype> map = project.getPrototypesMap();
         assertEquals(2, map.keySet().size());
         assertTrue(map.keySet().containsAll(Arrays.asList("base", "excluder")));
-        assertNotNull(project.getPrototype());      
+        assertNotNull(project.getBasePrototype());      
     }
     
     @Test

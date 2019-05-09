@@ -16,7 +16,7 @@ public class ConditionalPattern {
     public static final String INCLUDE = "+", EXCLUDE = "-";
 
     Pattern pattern;
-    final String condition;
+    String condition;
     protected boolean found = false;
     protected int state = 0;
 
@@ -30,6 +30,8 @@ public class ConditionalPattern {
         return new ConditionalPattern(p, condition);
 
     }
+
+    
 
     /**
      * Returns an stateful response depending on the condition and on the fact
@@ -84,6 +86,15 @@ public class ConditionalPattern {
 
     public String getCondition() {
         return condition;
+    }
+    
+    public void setCondition(String condition){
+        this.condition = condition;
+    }
+    
+    public String toString(){
+        return condition + pattern.toString();
+        
     }
 
 }

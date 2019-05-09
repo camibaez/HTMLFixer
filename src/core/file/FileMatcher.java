@@ -33,7 +33,7 @@ public class FileMatcher extends SimpleFileVisitor<Path> {
 
     public FileMatcher(Profile project) {
         this.project = project;
-        matcher = FileSystems.getDefault().getPathMatcher("glob:" + project.getPrototype().getExtensions());
+        matcher = FileSystems.getDefault().getPathMatcher("glob:" + project.getBasePrototype().getExtensions());
     }
 
     protected boolean checkFileName(Path file) {
@@ -91,7 +91,7 @@ public class FileMatcher extends SimpleFileVisitor<Path> {
     @Override
     public FileVisitResult visitFile(Path file, BasicFileAttributes attrs) {
         try {
-            FilePrototype basicPrototype = project.getPrototype();
+            FilePrototype basicPrototype = project.getBasePrototype();
             if(!checkPrototype(basicPrototype, file))
                 return CONTINUE;
 

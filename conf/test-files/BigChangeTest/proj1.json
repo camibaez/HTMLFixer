@@ -15,17 +15,17 @@
             "description": "",
             "rules": [{
                     "pattern": "(<script.*/pages/e/javascripts/eIBS\\.jsp\".*>.*</script>)",
-                    "replace": "$1 \n <script src=\"<%=request.getContextPath()%>/pages/e/javascripts/optMenu.jsp\"></script>",
+                    "replace": "$1 \n<script src=\"<%=request.getContextPath()%>/pages/e/javascripts/optMenu.jsp\"></script>",
                     "flags": 2,
                     "ruleClass": "core.rules.ReplaceText"
                 }],
-            "prototype" : "exluder"
+            "prototype" : "excluder"
         },
         {
             "id": "c2",
             "description": "",
             "rules": [{
-                    "pattern": "(.*oncontextmenu=\"showPopUp\\(.*)",
+                    "pattern": "(oncontextmenu=\"showPopUp\\()",
                     "replace": "class=\"context-menu-help\" onmousedown=\"showPopUp(",
                     "flags": 2,
                     "ruleClass": "core.rules.ReplaceText"

@@ -21,7 +21,7 @@ import java.nio.file.Paths;
  */
 public class Main {
 
-    public static void main(String[] args) throws IOException {
+    public static void maina(String[] args) throws IOException {
         //mainReal(args);
         mainTest(args);
 
@@ -96,10 +96,10 @@ public class Main {
         while (true) {
             try {
 
-                String projectName = "replaceTest";
+                String projectName = "proj1";
 
-                Profile project = ProjectAdministration.loadProject("conf\\test-files\\ReplaceTest\\" + projectName + ".json");
-                String path = "conf\\test-files\\ReplaceTest\\files";
+                Profile project = ProjectAdministration.loadProject("conf\\test-files\\BigChangeTest\\" + projectName + ".json");
+                String path = "conf\\test-files\\BigChangeTest\\files";
                 project.setWorkingDirectory(path);
                 System.out.println("Starting searching");
                 long time = System.currentTimeMillis();
@@ -108,9 +108,7 @@ public class Main {
                 
                 FileMatcher finder = new FileMatcher(project);
                 Files.walkFileTree(Paths.get(path), finder);
-                project.getFileCentral().getMatchedFiles().forEach(f -> {
-                    System.out.println(f.toFile().getAbsolutePath());
-                });
+                
                 System.out.println("Serching ended. Matched = "
                         + project.getFileCentral().getMatchedFiles().size()
                         + " Time = " + (System.currentTimeMillis() - time)
@@ -125,6 +123,8 @@ public class Main {
                     FileProcessor processor = new FileProcessor(project, project.getCleaners());
                     processor.processFiles();
                     System.out.println("Files processed. Processed = " + processor.getProcessed() + "Time = " + (System.currentTimeMillis() - time));
+                    
+                    break;
                 }
 
             } catch (Exception e) {

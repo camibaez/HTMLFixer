@@ -28,17 +28,16 @@ import org.json.simple.parser.ParseException;
  */
 public class ProjectAdministration {
 
-    public static void saveProject(Profile project, String path) throws FileNotFoundException {
-
+    public static String generateProfileJSON(Profile profile) {
         JSONObject jo = new JSONObject();
 
-        jo.put("name", project.getName());
-        jo.put("description", project.getDescription());
-        jo.put("lastWorkingDirectory", project.getWorkingDirectory());
-        jo.put("prototypes", ProjectWriter.writePrototypes(project.getPrototypesMap()));
+        jo.put("name", profile.getName());
+        jo.put("description", profile.getDescription());
+        jo.put("lastWorkingDirectory", profile.getWorkingDirectory());
+        jo.put("prototypes", ProjectWriter.writePrototypes(profile.getPrototypesMap()));
 
         JSONArray cleanersArray = new JSONArray();
-        for (Cleaner cleaner : project.getCleaners()) {
+        for (Cleaner cleaner : profile.getCleaners()) {
             JSONArray rules = new JSONArray();
             cleaner.getRules().forEach(rule -> {
                 rules.add(ProjectWriter.writeRule(rule));
@@ -47,9 +46,14 @@ public class ProjectAdministration {
             cleanersArray.add(ProjectWriter.writeCleaner(cleaner, rules));
         }
         jo.put("cleaners", cleanersArray);
+        return jo.toJSONString();
+    }
+
+    public static void saveProject(Profile project, String path) throws FileNotFoundException {
 
         try (PrintWriter pw = new PrintWriter(path)) {
-            pw.write(jo.toJSONString());
+            String fileData = generateProfileJSON(project);
+            pw.write(fileData);
             pw.flush();
         }
 
@@ -60,10 +64,9 @@ public class ProjectAdministration {
 
         try (Reader reader = new FileReader(path)) {
             JSONObject jsonObject = (JSONObject) parser.parse(reader);
-            
+
             Profile project = ProjectReader.readProject(jsonObject);
             project.setPrototypesMap(ProjectReader.readPrototypes(jsonObject));
-            
 
             List<Cleaner> cleaners = ProjectReader.readCleaners(jsonObject);
             project.setCleaners(cleaners);
@@ -78,5 +81,64 @@ public class ProjectAdministration {
 
         return null;
 
+    }
+
+    public static String prettyPrintJSON(String unformattedJsonString) {
+        StringBuilder prettyJSONBuilder = new StringBuilder();
+        int indentLevel = 0;
+        boolean inQuote = false;
+        for (char charFromUnformattedJson : unformattedJsonString.toCharArray()) {
+            switch (charFromUnformattedJson) {
+                case '"':
+                    // switch the quoting status
+                    inQuote = !inQuote;
+                    prettyJSONBuilder.append(charFromUnformattedJson);
+                    break;
+                case ' ':
+                    // For space: ignore the space if it is not being quoted.
+                    if (inQuote) {
+                        prettyJSONBuilder.append(charFromUnformattedJson);
+                    }
+                    break;
+                case '{':
+                case '[':
+                    // Starting a new block: increase the indent level
+                    prettyJSONBuilder.append(charFromUnformattedJson);
+                    indentLevel++;
+                    appendIndentedNewLine(indentLevel, prettyJSONBuilder);
+                    break;
+                case '}':
+                case ']':
+                    // Ending a new block; decrese the indent level
+                    indentLevel--;
+                    appendIndentedNewLine(indentLevel, prettyJSONBuilder);
+                    prettyJSONBuilder.append(charFromUnformattedJson);
+                    break;
+                case ',':
+                    // Ending a json item; create a new line after
+                    prettyJSONBuilder.append(charFromUnformattedJson);
+                    if (!inQuote) {
+                        appendIndentedNewLine(indentLevel, prettyJSONBuilder);
+                    }
+                    break;
+                default:
+                    prettyJSONBuilder.append(charFromUnformattedJson);
+            }
+        }
+        return prettyJSONBuilder.toString();
+    }
+
+    /**
+     * Print a new line with indention at the beginning of the new line.
+     *
+     * @param indentLevel
+     * @param stringBuilder
+     */
+    private static void appendIndentedNewLine(int indentLevel, StringBuilder stringBuilder) {
+        stringBuilder.append("\n");
+        for (int i = 0; i < indentLevel; i++) {
+            // Assuming indention using 2 spaces
+            stringBuilder.append("  ");
+        }
     }
 }

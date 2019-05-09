@@ -37,7 +37,7 @@ public class FileCentral{
 
     
     public Set<Path> getMatchedFiles() {
-        return prototypeFileMap.get(project.getPrototype());
+        return prototypeFileMap.get(project.getBasePrototype());
     }
     
     public boolean belongsTo(FilePrototype prototype, Path f){

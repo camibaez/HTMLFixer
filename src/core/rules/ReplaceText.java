@@ -35,7 +35,15 @@ public class ReplaceText extends TextRule {
         return pattern.matcher(target).replaceAll(replace);
     }
 
-    public String getPattern() {
+    public Pattern getPattern(){
+        return pattern;
+    }
+    
+    public void setPattern(Pattern pattern){
+        this.pattern = pattern;
+    }
+    
+    public String getPatternText() {
         return pattern.pattern();
     }
 
@@ -46,5 +54,11 @@ public class ReplaceText extends TextRule {
     public int getFlags() {
         return flags;
     }
+
+    public void setReplace(String replace) {
+        this.replace = replace;
+    }
+    
+    
 
 }

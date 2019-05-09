@@ -15,6 +15,7 @@ import java.util.regex.Pattern;
  * @author cbaez
  */
 public class FilePrototype {
+    protected String description;
     protected String id;
     protected String extensions;
     //rc;expr
@@ -61,6 +62,8 @@ public class FilePrototype {
         this.id = id;
     }
 
-    
+    public String toString(){
+        return getId();
+    }
     
 }

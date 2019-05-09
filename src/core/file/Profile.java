@@ -17,13 +17,15 @@ public class Profile {
     protected String description;
     protected String lastWorkingDirectory;
     protected String workingDirectory;
-    protected FilePrototype prototype;
+    
+    protected FilePrototype basePrototype;
     protected Map<String, FilePrototype> prototypesMap;
+    
     protected List<Cleaner> cleaners;
     protected FileCentral fileCentral;
 
     public Profile(FilePrototype prototype, List<Cleaner> cleaners) {
-        this.prototype = prototype;
+        this.basePrototype = prototype;
         this.cleaners = cleaners;
         this.fileCentral = new FileCentral(this);
     }
@@ -32,12 +34,12 @@ public class Profile {
         this.fileCentral = new FileCentral(this);
     }
 
-    public FilePrototype getPrototype() {
-        return prototype;
+    public FilePrototype getBasePrototype() {
+        return basePrototype;
     }
 
-    public void setPrototype(FilePrototype prototype) {
-        this.prototype = prototype;
+    public void setBasePrototype(FilePrototype prototype) {
+        this.basePrototype = prototype;
     }
 
     public List<Cleaner> getCleaners() {
@@ -86,7 +88,7 @@ public class Profile {
 
     public void setPrototypesMap(Map<String, FilePrototype> prototypeMap) {
         this.prototypesMap = prototypeMap;
-        this.prototype = this.prototypesMap.get("base");
+        this.basePrototype = prototypesMap.get("base");
     }
 
     public FileCentral getFileCentral() {
