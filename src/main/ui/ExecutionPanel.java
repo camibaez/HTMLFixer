@@ -5,19 +5,41 @@
  */
 package main.ui;
 
+import core.file.FileMatcher;
+import core.file.FileProcessor;
+import core.file.Profile;
+import java.nio.file.Path;
+import javax.swing.DefaultListModel;
+
 /**
  *
  * @author cbaez
  */
 public class ExecutionPanel extends javax.swing.JPanel {
-
+    Profile profile;
     /**
      * Creates new form ExecutionPanel
      */
-    public ExecutionPanel() {
+    public ExecutionPanel(Profile profile) {
+        this.profile = profile;
         initComponents();
     }
 
+    
+    public void loadMatchedFiles(){
+        
+        DefaultListModel<Path> filesDataModel = new DefaultListModel<>();
+        profile.getFileCentral().getMatchedFiles().forEach(p -> filesDataModel.addElement(p));
+        jLabel1.setText(profile.getFileCentral().getMatchedFiles().size() + " files matched");
+        jList2.setModel(filesDataModel);
+        
+    }
+    
+    public void loadProcessedFiles(FileProcessor processor){
+        jLabel2.setText(processor.getProcessed() + " files processed");
+        
+    }
+    
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
@@ -27,30 +49,69 @@ public class ExecutionPanel extends javax.swing.JPanel {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
+        jSplitPane1 = new javax.swing.JSplitPane();
+        jPanel1 = new javax.swing.JPanel();
+        jScrollPane2 = new javax.swing.JScrollPane();
+        jList2 = new javax.swing.JList();
+        jPanel3 = new javax.swing.JPanel();
         jLabel1 = new javax.swing.JLabel();
+        jPanel2 = new javax.swing.JPanel();
+        jScrollPane3 = new javax.swing.JScrollPane();
+        jList3 = new javax.swing.JList();
+        jPanel4 = new javax.swing.JPanel();
+        jLabel2 = new javax.swing.JLabel();
 
-        jLabel1.setText("Please load files");
+        setLayout(new java.awt.BorderLayout());
 
-        javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
-        this.setLayout(layout);
-        layout.setHorizontalGroup(
-            layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(layout.createSequentialGroup()
-                .addGap(152, 152, 152)
-                .addComponent(jLabel1)
-                .addContainerGap(172, Short.MAX_VALUE))
-        );
-        layout.setVerticalGroup(
-            layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(layout.createSequentialGroup()
-                .addGap(134, 134, 134)
-                .addComponent(jLabel1)
-                .addContainerGap(152, Short.MAX_VALUE))
-        );
+        jPanel1.setBorder(javax.swing.BorderFactory.createTitledBorder("Matched"));
+        jPanel1.setLayout(new java.awt.BorderLayout());
+
+        jScrollPane2.setViewportView(jList2);
+
+        jPanel1.add(jScrollPane2, java.awt.BorderLayout.CENTER);
+
+        jPanel3.setLayout(new java.awt.BorderLayout());
+
+        jLabel1.setText("0 matched");
+        jPanel3.add(jLabel1, java.awt.BorderLayout.CENTER);
+
+        jPanel1.add(jPanel3, java.awt.BorderLayout.PAGE_END);
+
+        jSplitPane1.setLeftComponent(jPanel1);
+
+        jPanel2.setBorder(javax.swing.BorderFactory.createTitledBorder("Processed"));
+        jPanel2.setLayout(new java.awt.BorderLayout());
+
+        jScrollPane3.setViewportView(jList3);
+
+        jPanel2.add(jScrollPane3, java.awt.BorderLayout.CENTER);
+
+        jPanel4.setLayout(new java.awt.BorderLayout());
+
+        jLabel2.setText("0 processed");
+        jPanel4.add(jLabel2, java.awt.BorderLayout.CENTER);
+
+        jPanel2.add(jPanel4, java.awt.BorderLayout.PAGE_END);
+
+        jSplitPane1.setRightComponent(jPanel2);
+
+        add(jSplitPane1, java.awt.BorderLayout.CENTER);
     }// </editor-fold>//GEN-END:initComponents
 
+    
+    
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JLabel jLabel1;
+    private javax.swing.JLabel jLabel2;
+    private javax.swing.JList jList2;
+    private javax.swing.JList jList3;
+    private javax.swing.JPanel jPanel1;
+    private javax.swing.JPanel jPanel2;
+    private javax.swing.JPanel jPanel3;
+    private javax.swing.JPanel jPanel4;
+    private javax.swing.JScrollPane jScrollPane2;
+    private javax.swing.JScrollPane jScrollPane3;
+    private javax.swing.JSplitPane jSplitPane1;
     // End of variables declaration//GEN-END:variables
 }

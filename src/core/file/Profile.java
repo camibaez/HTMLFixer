@@ -77,7 +77,7 @@ public class Profile {
     public String getWorkingDirectory() {
         return workingDirectory;
     }
-
+    
     public void setWorkingDirectory(String workingDirectory) {
         this.workingDirectory = workingDirectory;
     }

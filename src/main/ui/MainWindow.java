@@ -5,12 +5,18 @@
  */
 package main.ui;
 
+import core.file.FileMatcher;
+import core.file.FileProcessor;
 import java.io.File;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.JFileChooser;
 import core.file.Profile;
 import java.io.FileNotFoundException;
+import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Paths;
+import javax.swing.JPanel;
 import main.ProjectAdministration;
 
 /**
@@ -18,8 +24,11 @@ import main.ProjectAdministration;
  * @author cbaez
  */
 public class MainWindow extends javax.swing.JFrame {
+
     Profile profile;
     
+    ExecutionPanel executionPanel;
+
     /**
      * Creates new form MainWindow
      */
@@ -39,13 +48,25 @@ public class MainWindow extends javax.swing.JFrame {
         jTabbedPane2 = new javax.swing.JTabbedPane();
         jMenuBar1 = new javax.swing.JMenuBar();
         jMenu1 = new javax.swing.JMenu();
+        jMenuItem4 = new javax.swing.JMenuItem();
         jMenuItem1 = new javax.swing.JMenuItem();
         jMenuItem2 = new javax.swing.JMenuItem();
+        jSeparator1 = new javax.swing.JPopupMenu.Separator();
+        jMenuItem3 = new javax.swing.JMenuItem();
+        jMenuItem6 = new javax.swing.JMenuItem();
+        jMenu2 = new javax.swing.JMenu();
+        jMenuItem5 = new javax.swing.JMenuItem();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
-        setLocation(new java.awt.Point(500, 500));
+        setTitle("HTMLFixer");
+        setExtendedState(javax.swing.JFrame.MAXIMIZED_BOTH);
+        setLocation(new java.awt.Point(250, 250));
 
         jMenu1.setText("Poject");
+
+        jMenuItem4.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_N, java.awt.event.InputEvent.CTRL_MASK));
+        jMenuItem4.setText("New");
+        jMenu1.add(jMenuItem4);
 
         jMenuItem1.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_A, java.awt.event.InputEvent.CTRL_MASK));
         jMenuItem1.setText("Load");
@@ -64,8 +85,38 @@ public class MainWindow extends javax.swing.JFrame {
             }
         });
         jMenu1.add(jMenuItem2);
+        jMenu1.add(jSeparator1);
+
+        jMenuItem3.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_R, java.awt.event.InputEvent.CTRL_MASK));
+        jMenuItem3.setText("Run Matching");
+        jMenuItem3.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jMenuItem3ActionPerformed(evt);
+            }
+        });
+        jMenu1.add(jMenuItem3);
+
+        jMenuItem6.setText("Run Processor");
+        jMenuItem6.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jMenuItem6ActionPerformed(evt);
+            }
+        });
+        jMenu1.add(jMenuItem6);
 
         jMenuBar1.add(jMenu1);
+
+        jMenu2.setText("Help");
+
+        jMenuItem5.setText("About");
+        jMenuItem5.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jMenuItem5ActionPerformed(evt);
+            }
+        });
+        jMenu2.add(jMenuItem5);
+
+        jMenuBar1.add(jMenu2);
 
         setJMenuBar(jMenuBar1);
 
@@ -94,23 +145,76 @@ public class MainWindow extends javax.swing.JFrame {
     private void jMenuItem1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem1ActionPerformed
         //Create a file chooser
         final JFileChooser fc = new JFileChooser();
+        fc.setCurrentDirectory(new java.io.File("."));
+        fc.setDialogTitle("Open project");
         int returnVal = fc.showOpenDialog(this);
 
         if (returnVal == JFileChooser.APPROVE_OPTION) {
             File file = fc.getSelectedFile();
             profile = ProjectAdministration.loadProject(file.getAbsolutePath());
-            
+
             jTabbedPane2.removeAll();
-            
+
             jTabbedPane2.add(profile.getName(), new ProjectPanel(profile));
-            jTabbedPane2.add("Edition", new CodeEditionPanel(profile));
-            jTabbedPane2.add("Workspace", new ExecutionPanel());
-            
+            jTabbedPane2.add("Raw Code", new CodeEditionPanel(profile));
+            executionPanel = new ExecutionPanel(profile);
+            jTabbedPane2.add("Workspace", executionPanel);
+
         } else {
             Logger.getLogger(MainWindow.class.getName()).log(Level.SEVERE, "Open command cancelled by user.");
         }
-        
+
     }//GEN-LAST:event_jMenuItem1ActionPerformed
+
+    private void jMenuItem3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem3ActionPerformed
+        if (profile == null) {
+            return;
+        }
+        final JFileChooser fc = new JFileChooser();
+        fc.setCurrentDirectory(new java.io.File("."));
+        fc.setDialogTitle("Select working directory");
+        fc.setFileSelectionMode(JFileChooser.DIRECTORIES_ONLY);
+        fc.setAcceptAllFileFilterUsed(false);
+
+        int returnVal = fc.showOpenDialog(this);
+        if (returnVal == JFileChooser.APPROVE_OPTION) {
+            File file = fc.getCurrentDirectory();
+            profile.setWorkingDirectory(file.getAbsolutePath());
+            FileMatcher finder = new FileMatcher(profile);
+            try {
+                long time = System.currentTimeMillis();
+                Files.walkFileTree(Paths.get(profile.getWorkingDirectory()), finder);
+
+                System.out.println("Serching ended. Matched = "
+                        + profile.getFileCentral().getMatchedFiles().size()
+                        + " Time = " + (System.currentTimeMillis() - time)
+                );
+                executionPanel.loadMatchedFiles();
+            } catch (IOException ex) {
+                Logger.getLogger(MainWindow.class.getName()).log(Level.SEVERE, null, ex);
+            }
+
+        } else {
+            Logger.getLogger(MainWindow.class.getName()).log(Level.SEVERE, "Open command cancelled by user.");
+        }
+
+    }//GEN-LAST:event_jMenuItem3ActionPerformed
+
+    private void jMenuItem5ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem5ActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_jMenuItem5ActionPerformed
+
+    private void jMenuItem6ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem6ActionPerformed
+        long time = System.currentTimeMillis();
+        FileProcessor processor = new FileProcessor(profile, profile.getCleaners());
+        processor.processFiles();
+        System.out.println("Processing ended. Processed = "
+                + processor.getProcessed()
+                + " Time = " + (System.currentTimeMillis() - time)
+        );
+        
+        executionPanel.loadProcessedFiles(processor);
+    }//GEN-LAST:event_jMenuItem6ActionPerformed
 
     /**
      * @param args the command line arguments
@@ -149,9 +253,15 @@ public class MainWindow extends javax.swing.JFrame {
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JMenu jMenu1;
+    private javax.swing.JMenu jMenu2;
     private javax.swing.JMenuBar jMenuBar1;
     private javax.swing.JMenuItem jMenuItem1;
     private javax.swing.JMenuItem jMenuItem2;
+    private javax.swing.JMenuItem jMenuItem3;
+    private javax.swing.JMenuItem jMenuItem4;
+    private javax.swing.JMenuItem jMenuItem5;
+    private javax.swing.JMenuItem jMenuItem6;
+    private javax.swing.JPopupMenu.Separator jSeparator1;
     private javax.swing.JTabbedPane jTabbedPane2;
     // End of variables declaration//GEN-END:variables
 }
