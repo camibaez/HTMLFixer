@@ -152,6 +152,7 @@ public class MainWindow extends javax.swing.JFrame {
         if (returnVal == JFileChooser.APPROVE_OPTION) {
             File file = fc.getSelectedFile();
             profile = ProjectAdministration.loadProject(file.getAbsolutePath());
+            profile.setLogging(true);
 
             jTabbedPane2.removeAll();
 
@@ -213,7 +214,7 @@ public class MainWindow extends javax.swing.JFrame {
                 + " Time = " + (System.currentTimeMillis() - time)
         );
         
-        executionPanel.loadProcessedFiles(processor);
+        executionPanel.loadProcessedFiles(profile);
     }//GEN-LAST:event_jMenuItem6ActionPerformed
 
     /**

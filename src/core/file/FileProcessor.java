@@ -46,6 +46,10 @@ public class FileProcessor {
                 result = new String(Files.readAllBytes(file));
             }
             result = cleaner.clean(result);
+            project.getFileCentral().getProcessedFiles().add(file);
+            if(project.isLogging())
+                project.getLogCentral().addRecord(file, cleaner);
+                
 
         }
         if (result == null) {
@@ -60,7 +64,6 @@ public class FileProcessor {
                 String result = processFile(f);
 
                 saveFile(result, f);
-                processedCount++;
 
             } catch (IOException ex) {
                 Logger.getLogger(FileProcessor.class.getName()).log(Level.SEVERE, null, ex);

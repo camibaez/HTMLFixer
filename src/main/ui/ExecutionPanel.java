@@ -5,11 +5,19 @@
  */
 package main.ui;
 
+import core.file.Cleaner;
 import core.file.FileMatcher;
 import core.file.FileProcessor;
+import core.file.LogCentral;
 import core.file.Profile;
+import java.awt.Component;
 import java.nio.file.Path;
+import java.util.Map;
+import java.util.Set;
+import java.util.function.BiConsumer;
+import javax.swing.DefaultListCellRenderer;
 import javax.swing.DefaultListModel;
+import javax.swing.JList;
 
 /**
  *
@@ -35,8 +43,16 @@ public class ExecutionPanel extends javax.swing.JPanel {
         
     }
     
-    public void loadProcessedFiles(FileProcessor processor){
-        jLabel2.setText(processor.getProcessed() + " files processed");
+    public void loadProcessedFiles(Profile profile){
+        LogCentral logCentral = profile.getLogCentral();
+        DefaultListModel<String> listModel = new DefaultListModel<>();
+       logCentral.getFileProcessorRecords().forEach((k, v) -> {
+           StringBuilder cleanersString = new StringBuilder();
+           v.forEach(c -> {cleanersString.append(c.getId());});
+           listModel.addElement(cleanersString.toString());
+           
+       });
+        jLabel2.setText(listModel.getSize() + " files processed");
         
     }
     
@@ -66,36 +82,45 @@ public class ExecutionPanel extends javax.swing.JPanel {
         jPanel1.setBorder(javax.swing.BorderFactory.createTitledBorder("Matched"));
         jPanel1.setLayout(new java.awt.BorderLayout());
 
-        jScrollPane2.setViewportView(jList2);
+        jList2.setCellRenderer(new DefaultListCellRenderer(){
 
-        jPanel1.add(jScrollPane2, java.awt.BorderLayout.CENTER);
+            public Component getListCellRendererComponent(JList<? extends Path> list, Path p, int index,
+                boolean isSelected, boolean cellHasFocus) {
+                this.setText(p.getFileName().toString());
+                return this;
+            }
+        }
+    );
+    jScrollPane2.setViewportView(jList2);
 
-        jPanel3.setLayout(new java.awt.BorderLayout());
+    jPanel1.add(jScrollPane2, java.awt.BorderLayout.CENTER);
 
-        jLabel1.setText("0 matched");
-        jPanel3.add(jLabel1, java.awt.BorderLayout.CENTER);
+    jPanel3.setLayout(new java.awt.BorderLayout());
 
-        jPanel1.add(jPanel3, java.awt.BorderLayout.PAGE_END);
+    jLabel1.setText("0 matched");
+    jPanel3.add(jLabel1, java.awt.BorderLayout.CENTER);
 
-        jSplitPane1.setLeftComponent(jPanel1);
+    jPanel1.add(jPanel3, java.awt.BorderLayout.PAGE_END);
 
-        jPanel2.setBorder(javax.swing.BorderFactory.createTitledBorder("Processed"));
-        jPanel2.setLayout(new java.awt.BorderLayout());
+    jSplitPane1.setLeftComponent(jPanel1);
 
-        jScrollPane3.setViewportView(jList3);
+    jPanel2.setBorder(javax.swing.BorderFactory.createTitledBorder("Processed"));
+    jPanel2.setLayout(new java.awt.BorderLayout());
 
-        jPanel2.add(jScrollPane3, java.awt.BorderLayout.CENTER);
+    jScrollPane3.setViewportView(jList3);
 
-        jPanel4.setLayout(new java.awt.BorderLayout());
+    jPanel2.add(jScrollPane3, java.awt.BorderLayout.CENTER);
 
-        jLabel2.setText("0 processed");
-        jPanel4.add(jLabel2, java.awt.BorderLayout.CENTER);
+    jPanel4.setLayout(new java.awt.BorderLayout());
 
-        jPanel2.add(jPanel4, java.awt.BorderLayout.PAGE_END);
+    jLabel2.setText("0 processed");
+    jPanel4.add(jLabel2, java.awt.BorderLayout.CENTER);
 
-        jSplitPane1.setRightComponent(jPanel2);
+    jPanel2.add(jPanel4, java.awt.BorderLayout.PAGE_END);
 
-        add(jSplitPane1, java.awt.BorderLayout.CENTER);
+    jSplitPane1.setRightComponent(jPanel2);
+
+    add(jSplitPane1, java.awt.BorderLayout.CENTER);
     }// </editor-fold>//GEN-END:initComponents
 
     

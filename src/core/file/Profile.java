@@ -23,6 +23,8 @@ public class Profile {
     
     protected List<Cleaner> cleaners;
     protected FileCentral fileCentral;
+    protected LogCentral logCentral;
+    protected boolean logging = false;
 
     public Profile(FilePrototype prototype, List<Cleaner> cleaners) {
         this.basePrototype = prototype;
@@ -93,6 +95,25 @@ public class Profile {
 
     public FileCentral getFileCentral() {
         return fileCentral;
+    }
+    
+    public void setLogging(boolean logging){
+        if(logging){
+            if(logCentral == null){
+                logCentral = new LogCentral();
+            }
+            
+        }
+        
+        this.logging = true;
+    }
+    
+    public boolean isLogging(){
+        return logging;
+    }
+
+    public LogCentral getLogCentral() {
+        return logCentral;
     }
     
     
