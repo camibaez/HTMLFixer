@@ -61,7 +61,7 @@
 
               <Layout class="org.netbeans.modules.form.compat2.layouts.support.JScrollPaneSupportLayout"/>
               <SubComponents>
-                <Component class="javax.swing.JList" name="jList2">
+                <Component class="javax.swing.JList" name="matchedFilesList">
                   <Properties>
                     <Property name="model" type="javax.swing.ListModel" editor="org.netbeans.modules.form.editors2.ListModelEditor">
                       <StringArray count="0"/>
@@ -70,6 +70,9 @@
                       <Connection code="new DefaultListCellRenderer(){&#xd;&#xa;   &#xd;&#xa;    public Component getListCellRendererComponent(JList&lt;? extends Path&gt; list, Path p, int index,&#xd;&#xa;        boolean isSelected, boolean cellHasFocus) {&#xd;&#xa;        this.setText(p.getFileName().toString());&#xd;&#xa;        return this;&#xd;&#xa;    }&#xd;&#xa;}&#xd;&#xa;" type="code"/>
                     </Property>
                   </Properties>
+                  <Events>
+                    <EventHandler event="valueChanged" listener="javax.swing.event.ListSelectionListener" parameters="javax.swing.event.ListSelectionEvent" handler="matchedFilesListValueChanged"/>
+                  </Events>
                 </Component>
               </SubComponents>
             </Container>
@@ -133,7 +136,7 @@
 
                   <Layout class="org.netbeans.modules.form.compat2.layouts.support.JScrollPaneSupportLayout"/>
                   <SubComponents>
-                    <Component class="javax.swing.JList" name="jList3">
+                    <Component class="javax.swing.JList" name="processedFilesList">
                       <Properties>
                         <Property name="model" type="javax.swing.ListModel" editor="org.netbeans.modules.form.editors2.ListModelEditor">
                           <StringArray count="0"/>

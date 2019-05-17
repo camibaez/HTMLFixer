@@ -48,12 +48,12 @@ public class MainWindow extends javax.swing.JFrame {
         jTabbedPane2 = new javax.swing.JTabbedPane();
         jMenuBar1 = new javax.swing.JMenuBar();
         jMenu1 = new javax.swing.JMenu();
-        jMenuItem4 = new javax.swing.JMenuItem();
-        jMenuItem1 = new javax.swing.JMenuItem();
+        newProjectMenu = new javax.swing.JMenuItem();
+        saveMenuMenu = new javax.swing.JMenuItem();
         jMenuItem2 = new javax.swing.JMenuItem();
         jSeparator1 = new javax.swing.JPopupMenu.Separator();
         jMenu3 = new javax.swing.JMenu();
-        jMenuItem3 = new javax.swing.JMenuItem();
+        loadFilesMenu = new javax.swing.JMenuItem();
         jMenuItem6 = new javax.swing.JMenuItem();
         jMenu2 = new javax.swing.JMenu();
         jMenuItem5 = new javax.swing.JMenuItem();
@@ -65,18 +65,18 @@ public class MainWindow extends javax.swing.JFrame {
 
         jMenu1.setText("Poject");
 
-        jMenuItem4.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_N, java.awt.event.InputEvent.CTRL_MASK));
-        jMenuItem4.setText("New");
-        jMenu1.add(jMenuItem4);
+        newProjectMenu.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_N, java.awt.event.InputEvent.CTRL_MASK));
+        newProjectMenu.setText("New");
+        jMenu1.add(newProjectMenu);
 
-        jMenuItem1.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_O, java.awt.event.InputEvent.CTRL_MASK));
-        jMenuItem1.setText("Load");
-        jMenuItem1.addActionListener(new java.awt.event.ActionListener() {
+        saveMenuMenu.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_O, java.awt.event.InputEvent.CTRL_MASK));
+        saveMenuMenu.setText("Load");
+        saveMenuMenu.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jMenuItem1ActionPerformed(evt);
+                saveMenuMenuActionPerformed(evt);
             }
         });
-        jMenu1.add(jMenuItem1);
+        jMenu1.add(saveMenuMenu);
 
         jMenuItem2.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_S, java.awt.event.InputEvent.CTRL_MASK));
         jMenuItem2.setText("Save");
@@ -92,14 +92,14 @@ public class MainWindow extends javax.swing.JFrame {
 
         jMenu3.setText("Run");
 
-        jMenuItem3.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_L, java.awt.event.InputEvent.CTRL_MASK));
-        jMenuItem3.setText("Load Files");
-        jMenuItem3.addActionListener(new java.awt.event.ActionListener() {
+        loadFilesMenu.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_L, java.awt.event.InputEvent.CTRL_MASK));
+        loadFilesMenu.setText("Load Files");
+        loadFilesMenu.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jMenuItem3ActionPerformed(evt);
+                loadFilesMenuActionPerformed(evt);
             }
         });
-        jMenu3.add(jMenuItem3);
+        jMenu3.add(loadFilesMenu);
 
         jMenuItem6.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_R, java.awt.event.InputEvent.CTRL_MASK));
         jMenuItem6.setText("Run Processor");
@@ -149,7 +149,7 @@ public class MainWindow extends javax.swing.JFrame {
         }
     }//GEN-LAST:event_jMenuItem2ActionPerformed
 
-    private void jMenuItem1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem1ActionPerformed
+    private void saveMenuMenuActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_saveMenuMenuActionPerformed
         //Create a file chooser
         final JFileChooser fc = new JFileChooser();
         fc.setCurrentDirectory(new java.io.File("."));
@@ -159,7 +159,6 @@ public class MainWindow extends javax.swing.JFrame {
         if (returnVal == JFileChooser.APPROVE_OPTION) {
             File file = fc.getSelectedFile();
             profile = ProjectAdministration.loadProject(file.getAbsolutePath());
-            profile.setLogging(true);
 
             jTabbedPane2.removeAll();
 
@@ -172,9 +171,9 @@ public class MainWindow extends javax.swing.JFrame {
             Logger.getLogger(MainWindow.class.getName()).log(Level.SEVERE, "Open command cancelled by user.");
         }
 
-    }//GEN-LAST:event_jMenuItem1ActionPerformed
+    }//GEN-LAST:event_saveMenuMenuActionPerformed
 
-    private void jMenuItem3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem3ActionPerformed
+    private void loadFilesMenuActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_loadFilesMenuActionPerformed
         if (profile == null) {
             return;
         }
@@ -206,22 +205,14 @@ public class MainWindow extends javax.swing.JFrame {
             Logger.getLogger(MainWindow.class.getName()).log(Level.SEVERE, "Open command cancelled by user.");
         }
 
-    }//GEN-LAST:event_jMenuItem3ActionPerformed
+    }//GEN-LAST:event_loadFilesMenuActionPerformed
 
     private void jMenuItem5ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem5ActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_jMenuItem5ActionPerformed
 
     private void jMenuItem6ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem6ActionPerformed
-        long time = System.currentTimeMillis();
-        FileProcessor processor = new FileProcessor(profile, profile.getCleaners());
-        processor.processFiles();
-        System.out.println("Processing ended. Processed = "
-                + processor.getProcessed()
-                + " Time = " + (System.currentTimeMillis() - time)
-        );
         
-        executionPanel.loadProcessedFiles();
     }//GEN-LAST:event_jMenuItem6ActionPerformed
 
     /**
@@ -264,13 +255,13 @@ public class MainWindow extends javax.swing.JFrame {
     private javax.swing.JMenu jMenu2;
     private javax.swing.JMenu jMenu3;
     private javax.swing.JMenuBar jMenuBar1;
-    private javax.swing.JMenuItem jMenuItem1;
     private javax.swing.JMenuItem jMenuItem2;
-    private javax.swing.JMenuItem jMenuItem3;
-    private javax.swing.JMenuItem jMenuItem4;
     private javax.swing.JMenuItem jMenuItem5;
     private javax.swing.JMenuItem jMenuItem6;
     private javax.swing.JPopupMenu.Separator jSeparator1;
     private javax.swing.JTabbedPane jTabbedPane2;
+    private javax.swing.JMenuItem loadFilesMenu;
+    private javax.swing.JMenuItem newProjectMenu;
+    private javax.swing.JMenuItem saveMenuMenu;
     // End of variables declaration//GEN-END:variables
 }

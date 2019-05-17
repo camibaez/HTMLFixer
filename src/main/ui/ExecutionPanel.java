@@ -5,10 +5,14 @@
  */
 package main.ui;
 
+import core.file.Cleaner;
+import core.file.FileMatcher;
+import core.file.FileProcessor;
 import core.file.LogCentral;
 import core.file.Profile;
 import java.awt.Component;
 import java.nio.file.Path;
+import java.util.List;
 import javax.swing.DefaultListCellRenderer;
 import javax.swing.DefaultListModel;
 import javax.swing.JList;
@@ -20,12 +24,15 @@ import javax.swing.JList;
 public class ExecutionPanel extends javax.swing.JPanel {
 
     Profile profile;
+    FileMatcher fileMatcher;
+    FileProcessor fileProcessor;
 
     /**
      * Creates new form ExecutionPanel
      */
     public ExecutionPanel(Profile profile) {
         this.profile = profile;
+
         initComponents();
     }
 
@@ -34,30 +41,22 @@ public class ExecutionPanel extends javax.swing.JPanel {
         DefaultListModel<Path> filesDataModel = new DefaultListModel<>();
         profile.getFileCentral().getMatchedFiles().forEach(p -> filesDataModel.addElement(p));
         jLabel1.setText(profile.getFileCentral().getMatchedFiles().size() + " files matched");
-        jList2.setModel(filesDataModel);
+        matchedFilesList.setModel(filesDataModel);
 
     }
 
-    public void loadProcessedFiles() {
-        LogCentral logCentral = profile.getLogCentral();
-        DefaultListModel<String> listModel = new DefaultListModel<>();
-        logCentral.getFileProcessorRecords().forEach((k, v) -> {
-            StringBuilder cleanersString = new StringBuilder();
-            cleanersString.append(k.getFileName());
-            cleanersString.append(": <");
-            v.forEach(c -> {
-                cleanersString.append(c.getId());
-                cleanersString.append(" | ");
-            });
-            cleanersString.append(">");
-            listModel.addElement(cleanersString.toString());
-
+    public void previewProcess(Path path){
+        DefaultListModel<Cleaner> listModel = new DefaultListModel<>();
+        List<Cleaner> assignedCleaners = fileProcessor.getAssignedCleaners(path);
+        assignedCleaners.forEach(c -> {
+            listModel.addElement(c);
+        
         });
-        jList3.setModel(listModel);
-        jLabel2.setText(listModel.getSize() + " files processed");
-
+        processedFilesList.setModel(listModel);
     }
-
+    
+    
+  
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
@@ -70,13 +69,13 @@ public class ExecutionPanel extends javax.swing.JPanel {
         jSplitPane1 = new javax.swing.JSplitPane();
         matchedFilesPanel = new javax.swing.JPanel();
         jScrollPane2 = new javax.swing.JScrollPane();
-        jList2 = new javax.swing.JList();
+        matchedFilesList = new javax.swing.JList();
         jPanel3 = new javax.swing.JPanel();
         jLabel1 = new javax.swing.JLabel();
         jSplitPane2 = new javax.swing.JSplitPane();
         processedFilesPanel = new javax.swing.JPanel();
         jScrollPane3 = new javax.swing.JScrollPane();
-        jList3 = new javax.swing.JList();
+        processedFilesList = new javax.swing.JList();
         jPanel4 = new javax.swing.JPanel();
         jLabel2 = new javax.swing.JLabel();
         previewFilePanel = new javax.swing.JPanel();
@@ -87,7 +86,7 @@ public class ExecutionPanel extends javax.swing.JPanel {
         matchedFilesPanel.setBorder(javax.swing.BorderFactory.createTitledBorder("Matched"));
         matchedFilesPanel.setLayout(new java.awt.BorderLayout());
 
-        jList2.setCellRenderer(new DefaultListCellRenderer(){
+        matchedFilesList.setCellRenderer(new DefaultListCellRenderer(){
 
             public Component getListCellRendererComponent(JList<? extends Path> list, Path p, int index,
                 boolean isSelected, boolean cellHasFocus) {
@@ -96,7 +95,12 @@ public class ExecutionPanel extends javax.swing.JPanel {
             }
         }
     );
-    jScrollPane2.setViewportView(jList2);
+    matchedFilesList.addListSelectionListener(new javax.swing.event.ListSelectionListener() {
+        public void valueChanged(javax.swing.event.ListSelectionEvent evt) {
+            matchedFilesListValueChanged(evt);
+        }
+    });
+    jScrollPane2.setViewportView(matchedFilesList);
 
     matchedFilesPanel.add(jScrollPane2, java.awt.BorderLayout.CENTER);
 
@@ -112,7 +116,7 @@ public class ExecutionPanel extends javax.swing.JPanel {
     processedFilesPanel.setBorder(javax.swing.BorderFactory.createTitledBorder("Processed"));
     processedFilesPanel.setLayout(new java.awt.BorderLayout());
 
-    jScrollPane3.setViewportView(jList3);
+    jScrollPane3.setViewportView(processedFilesList);
 
     processedFilesPanel.add(jScrollPane3, java.awt.BorderLayout.CENTER);
 
@@ -144,12 +148,15 @@ public class ExecutionPanel extends javax.swing.JPanel {
     );
     }// </editor-fold>//GEN-END:initComponents
 
+    private void matchedFilesListValueChanged(javax.swing.event.ListSelectionEvent evt) {//GEN-FIRST:event_matchedFilesListValueChanged
+        Path path = (Path) matchedFilesList.getSelectedValue();
+        previewProcess(path);
+    }//GEN-LAST:event_matchedFilesListValueChanged
+
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
-    private javax.swing.JList jList2;
-    private javax.swing.JList jList3;
     private javax.swing.JPanel jPanel3;
     private javax.swing.JPanel jPanel4;
     private javax.swing.JScrollPane jScrollPane2;
@@ -157,8 +164,10 @@ public class ExecutionPanel extends javax.swing.JPanel {
     private javax.swing.JSplitPane jSplitPane1;
     private javax.swing.JSplitPane jSplitPane2;
     private javax.swing.JSplitPane jSplitPane3;
+    private javax.swing.JList matchedFilesList;
     private javax.swing.JPanel matchedFilesPanel;
     private javax.swing.JPanel previewFilePanel;
+    private javax.swing.JList processedFilesList;
     private javax.swing.JPanel processedFilesPanel;
     // End of variables declaration//GEN-END:variables
 }

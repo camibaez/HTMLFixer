@@ -121,7 +121,7 @@ public class Main {
                     System.out.println("Starting replace");
                     time = System.currentTimeMillis();
                     FileProcessor processor = new FileProcessor(project, project.getCleaners());
-                    processor.processFiles();
+                    processor.processAll();
                     System.out.println("Files processed. Processed = " + processor.getProcessed() + "Time = " + (System.currentTimeMillis() - time));
                     
                     break;
