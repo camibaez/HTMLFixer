@@ -15,9 +15,8 @@ import java.io.OutputStreamWriter;
 import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
 import java.nio.file.Path;
+import java.util.LinkedList;
 import java.util.List;
-import java.util.Map;
-import java.util.Set;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -36,21 +35,30 @@ public class FileProcessor {
         this.cleaners = cleaners;
     }
 
+    public boolean isAssigned(Cleaner cleaner, Path file) {
+        return cleaner.getPrototype() == null || project.getFileCentral().belongsTo(cleaner.getPrototype(), file);
+    }
+
+    public List<Cleaner> getAssignedCleaners(Path file) {
+        List<Cleaner> list = new LinkedList<>();
+        for (Cleaner cleaner : cleaners) {
+            if (isAssigned(cleaner, file)) {
+                list.add(cleaner);
+            }
+        }
+        return list;
+    }
+
     public String processFile(Path file) throws IOException {
         Object result = null;
         for (Cleaner cleaner : cleaners) {
-            if (cleaner.getPrototype() != null && !project.getFileCentral().belongsTo(cleaner.getPrototype(), file)) {
+            if(!isAssigned(cleaner, file))
                 continue;
-            }
             if (result == null) {
                 result = new String(Files.readAllBytes(file));
             }
             result = cleaner.clean(result);
             project.getFileCentral().getProcessedFiles().add(file);
-            if(project.isLogging())
-                project.getLogCentral().addRecord(file, cleaner);
-                
-
         }
         if (result == null) {
             return "";
@@ -58,7 +66,16 @@ public class FileProcessor {
         return TypeTransformer.transformForType(String.class, result);
     }
 
-    public void processFiles() {
+    public void saveFile(String result, Path p) throws FileNotFoundException, IOException {
+        File f = p.toFile();
+        try (BufferedWriter writer = new BufferedWriter(
+                new OutputStreamWriter(new FileOutputStream(f), StandardCharsets.UTF_8)
+        )) {
+            writer.write(result);
+        }
+    }
+
+    public void processAll() {
         for (Path f : project.getFileCentral().getMatchedFiles()) {
             try {
                 String result = processFile(f);
@@ -68,15 +85,6 @@ public class FileProcessor {
             } catch (IOException ex) {
                 Logger.getLogger(FileProcessor.class.getName()).log(Level.SEVERE, null, ex);
             }
-        }
-    }
-
-    public void saveFile(String result, Path p) throws FileNotFoundException, IOException {
-        File f = p.toFile();
-        try (BufferedWriter writer = new BufferedWriter(
-                new OutputStreamWriter(new FileOutputStream(f), StandardCharsets.UTF_8)
-        )) {
-            writer.write(result);
         }
     }
 
