@@ -23,8 +23,9 @@ public class Profile {
     
     protected List<Cleaner> cleaners;
     protected FileCentral fileCentral;
-    protected LogCentral logCentral;
-    protected boolean logging = false;
+    
+    protected FileMatcher fileMatcher;
+    protected FileProcessor fileProcessor;
 
     public Profile(FilePrototype prototype, List<Cleaner> cleaners) {
         this.basePrototype = prototype;
@@ -95,27 +96,23 @@ public class Profile {
 
     public FileCentral getFileCentral() {
         return fileCentral;
-    }
-    
-    public void setLogging(boolean logging){
-        if(logging){
-            if(logCentral == null){
-                logCentral = new LogCentral();
-            }
-            
-        }
-        
-        this.logging = true;
-    }
-    
-    public boolean isLogging(){
-        return logging;
+    }    
+
+    public FileMatcher getFileMatcher() {
+        return fileMatcher;
     }
 
-    public LogCentral getLogCentral() {
-        return logCentral;
+    public void setFileMatcher(FileMatcher fileMatcher) {
+        this.fileMatcher = fileMatcher;
+    }
+
+    public FileProcessor getFileProcessor() {
+        return fileProcessor;
+    }
+
+    public void setFileProcessor(FileProcessor fileProcessor) {
+        this.fileProcessor = fileProcessor;
     }
     
-    
-    
+   
 }
