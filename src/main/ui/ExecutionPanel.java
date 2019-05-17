@@ -43,9 +43,13 @@ public class ExecutionPanel extends javax.swing.JPanel {
         DefaultListModel<String> listModel = new DefaultListModel<>();
         logCentral.getFileProcessorRecords().forEach((k, v) -> {
             StringBuilder cleanersString = new StringBuilder();
+            cleanersString.append(k.getFileName());
+            cleanersString.append(": <");
             v.forEach(c -> {
                 cleanersString.append(c.getId());
+                cleanersString.append(" | ");
             });
+            cleanersString.append(">");
             listModel.addElement(cleanersString.toString());
 
         });
@@ -64,21 +68,24 @@ public class ExecutionPanel extends javax.swing.JPanel {
     private void initComponents() {
 
         jSplitPane1 = new javax.swing.JSplitPane();
-        jPanel1 = new javax.swing.JPanel();
+        matchedFilesPanel = new javax.swing.JPanel();
         jScrollPane2 = new javax.swing.JScrollPane();
         jList2 = new javax.swing.JList();
         jPanel3 = new javax.swing.JPanel();
         jLabel1 = new javax.swing.JLabel();
-        jPanel2 = new javax.swing.JPanel();
+        jSplitPane2 = new javax.swing.JSplitPane();
+        processedFilesPanel = new javax.swing.JPanel();
         jScrollPane3 = new javax.swing.JScrollPane();
         jList3 = new javax.swing.JList();
         jPanel4 = new javax.swing.JPanel();
         jLabel2 = new javax.swing.JLabel();
+        previewFilePanel = new javax.swing.JPanel();
+        jLabel3 = new javax.swing.JLabel();
 
-        setLayout(new java.awt.BorderLayout());
+        jSplitPane1.setOrientation(javax.swing.JSplitPane.VERTICAL_SPLIT);
 
-        jPanel1.setBorder(javax.swing.BorderFactory.createTitledBorder("Matched"));
-        jPanel1.setLayout(new java.awt.BorderLayout());
+        matchedFilesPanel.setBorder(javax.swing.BorderFactory.createTitledBorder("Matched"));
+        matchedFilesPanel.setLayout(new java.awt.BorderLayout());
 
         jList2.setCellRenderer(new DefaultListCellRenderer(){
 
@@ -91,48 +98,67 @@ public class ExecutionPanel extends javax.swing.JPanel {
     );
     jScrollPane2.setViewportView(jList2);
 
-    jPanel1.add(jScrollPane2, java.awt.BorderLayout.CENTER);
+    matchedFilesPanel.add(jScrollPane2, java.awt.BorderLayout.CENTER);
 
     jPanel3.setLayout(new java.awt.BorderLayout());
 
     jLabel1.setText("0 matched");
     jPanel3.add(jLabel1, java.awt.BorderLayout.CENTER);
 
-    jPanel1.add(jPanel3, java.awt.BorderLayout.PAGE_END);
+    matchedFilesPanel.add(jPanel3, java.awt.BorderLayout.PAGE_END);
 
-    jSplitPane1.setLeftComponent(jPanel1);
+    jSplitPane1.setTopComponent(matchedFilesPanel);
 
-    jPanel2.setBorder(javax.swing.BorderFactory.createTitledBorder("Processed"));
-    jPanel2.setLayout(new java.awt.BorderLayout());
+    processedFilesPanel.setBorder(javax.swing.BorderFactory.createTitledBorder("Processed"));
+    processedFilesPanel.setLayout(new java.awt.BorderLayout());
 
     jScrollPane3.setViewportView(jList3);
 
-    jPanel2.add(jScrollPane3, java.awt.BorderLayout.CENTER);
+    processedFilesPanel.add(jScrollPane3, java.awt.BorderLayout.CENTER);
 
     jPanel4.setLayout(new java.awt.BorderLayout());
 
     jLabel2.setText("0 processed");
     jPanel4.add(jLabel2, java.awt.BorderLayout.CENTER);
 
-    jPanel2.add(jPanel4, java.awt.BorderLayout.PAGE_END);
+    processedFilesPanel.add(jPanel4, java.awt.BorderLayout.PAGE_END);
 
-    jSplitPane1.setRightComponent(jPanel2);
+    jSplitPane2.setLeftComponent(processedFilesPanel);
 
-    add(jSplitPane1, java.awt.BorderLayout.CENTER);
+    jLabel3.setText("Preview");
+    previewFilePanel.add(jLabel3);
+
+    jSplitPane2.setRightComponent(previewFilePanel);
+
+    jSplitPane1.setRightComponent(jSplitPane2);
+
+    javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
+    this.setLayout(layout);
+    layout.setHorizontalGroup(
+        layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+        .addComponent(jSplitPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 1251, Short.MAX_VALUE)
+    );
+    layout.setVerticalGroup(
+        layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+        .addComponent(jSplitPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 460, Short.MAX_VALUE)
+    );
     }// </editor-fold>//GEN-END:initComponents
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
+    private javax.swing.JLabel jLabel3;
     private javax.swing.JList jList2;
     private javax.swing.JList jList3;
-    private javax.swing.JPanel jPanel1;
-    private javax.swing.JPanel jPanel2;
     private javax.swing.JPanel jPanel3;
     private javax.swing.JPanel jPanel4;
     private javax.swing.JScrollPane jScrollPane2;
     private javax.swing.JScrollPane jScrollPane3;
     private javax.swing.JSplitPane jSplitPane1;
+    private javax.swing.JSplitPane jSplitPane2;
+    private javax.swing.JPanel matchedFilesPanel;
+    private javax.swing.JPanel previewFilePanel;
+    private javax.swing.JPanel processedFilesPanel;
     // End of variables declaration//GEN-END:variables
 }
