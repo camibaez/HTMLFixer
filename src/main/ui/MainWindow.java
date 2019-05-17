@@ -214,7 +214,7 @@ public class MainWindow extends javax.swing.JFrame {
                 + " Time = " + (System.currentTimeMillis() - time)
         );
         
-        executionPanel.loadProcessedFiles(profile);
+        executionPanel.loadProcessedFiles();
     }//GEN-LAST:event_jMenuItem6ActionPerformed
 
     /**

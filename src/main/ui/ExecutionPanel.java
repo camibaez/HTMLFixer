@@ -5,16 +5,10 @@
  */
 package main.ui;
 
-import core.file.Cleaner;
-import core.file.FileMatcher;
-import core.file.FileProcessor;
 import core.file.LogCentral;
 import core.file.Profile;
 import java.awt.Component;
 import java.nio.file.Path;
-import java.util.Map;
-import java.util.Set;
-import java.util.function.BiConsumer;
 import javax.swing.DefaultListCellRenderer;
 import javax.swing.DefaultListModel;
 import javax.swing.JList;
@@ -24,7 +18,9 @@ import javax.swing.JList;
  * @author cbaez
  */
 public class ExecutionPanel extends javax.swing.JPanel {
+
     Profile profile;
+
     /**
      * Creates new form ExecutionPanel
      */
@@ -33,29 +29,31 @@ public class ExecutionPanel extends javax.swing.JPanel {
         initComponents();
     }
 
-    
-    public void loadMatchedFiles(){
-        
+    public void loadMatchedFiles() {
+
         DefaultListModel<Path> filesDataModel = new DefaultListModel<>();
         profile.getFileCentral().getMatchedFiles().forEach(p -> filesDataModel.addElement(p));
         jLabel1.setText(profile.getFileCentral().getMatchedFiles().size() + " files matched");
         jList2.setModel(filesDataModel);
-        
+
     }
-    
-    public void loadProcessedFiles(Profile profile){
+
+    public void loadProcessedFiles() {
         LogCentral logCentral = profile.getLogCentral();
         DefaultListModel<String> listModel = new DefaultListModel<>();
-       logCentral.getFileProcessorRecords().forEach((k, v) -> {
-           StringBuilder cleanersString = new StringBuilder();
-           v.forEach(c -> {cleanersString.append(c.getId());});
-           listModel.addElement(cleanersString.toString());
-           
-       });
+        logCentral.getFileProcessorRecords().forEach((k, v) -> {
+            StringBuilder cleanersString = new StringBuilder();
+            v.forEach(c -> {
+                cleanersString.append(c.getId());
+            });
+            listModel.addElement(cleanersString.toString());
+
+        });
+        jList3.setModel(listModel);
         jLabel2.setText(listModel.getSize() + " files processed");
-        
+
     }
-    
+
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
@@ -123,8 +121,6 @@ public class ExecutionPanel extends javax.swing.JPanel {
     add(jSplitPane1, java.awt.BorderLayout.CENTER);
     }// </editor-fold>//GEN-END:initComponents
 
-    
-    
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JLabel jLabel1;

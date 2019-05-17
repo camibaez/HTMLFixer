@@ -97,7 +97,8 @@ public class FileMatcher extends SimpleFileVisitor<Path> {
 
             project.getFileCentral().addFilePrototype(basicPrototype);
             project.getFileCentral().linkFileToPrototype(basicPrototype, file);
-
+            
+            
             Collection<FilePrototype> prototypesList = project.getPrototypesMap().values();
             //prototypesList.remove(basicPrototype);
             for (FilePrototype p : prototypesList) {

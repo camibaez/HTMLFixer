@@ -17,6 +17,10 @@ import java.util.TreeMap;
  * @author cbaez
  */
 public class LogCentral {  
+    int visitedFiles;
+    int matchedFiles;
+    int processedFiles;
+    
     protected Map<Path, Set<Cleaner>> fileProcessorRecords;
 
     public LogCentral(){
@@ -40,4 +44,9 @@ public class LogCentral {
     public void setFileProcessorRecords(Map<Path, Set<Cleaner>> fileProcessorRecords) {
         this.fileProcessorRecords = fileProcessorRecords;
     } 
+    
+    
+    public int getProcessedFiles(){
+        return getFileProcessorRecords().keySet().size();
+    }
 }
