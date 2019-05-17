@@ -80,7 +80,7 @@ public class ExecutionPanel extends javax.swing.JPanel {
         jPanel4 = new javax.swing.JPanel();
         jLabel2 = new javax.swing.JLabel();
         previewFilePanel = new javax.swing.JPanel();
-        jLabel3 = new javax.swing.JLabel();
+        jSplitPane3 = new javax.swing.JSplitPane();
 
         jSplitPane1.setOrientation(javax.swing.JSplitPane.VERTICAL_SPLIT);
 
@@ -125,8 +125,8 @@ public class ExecutionPanel extends javax.swing.JPanel {
 
     jSplitPane2.setLeftComponent(processedFilesPanel);
 
-    jLabel3.setText("Preview");
-    previewFilePanel.add(jLabel3);
+    previewFilePanel.setLayout(new java.awt.BorderLayout());
+    previewFilePanel.add(jSplitPane3, java.awt.BorderLayout.CENTER);
 
     jSplitPane2.setRightComponent(previewFilePanel);
 
@@ -148,7 +148,6 @@ public class ExecutionPanel extends javax.swing.JPanel {
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
-    private javax.swing.JLabel jLabel3;
     private javax.swing.JList jList2;
     private javax.swing.JList jList3;
     private javax.swing.JPanel jPanel3;
@@ -157,6 +156,7 @@ public class ExecutionPanel extends javax.swing.JPanel {
     private javax.swing.JScrollPane jScrollPane3;
     private javax.swing.JSplitPane jSplitPane1;
     private javax.swing.JSplitPane jSplitPane2;
+    private javax.swing.JSplitPane jSplitPane3;
     private javax.swing.JPanel matchedFilesPanel;
     private javax.swing.JPanel previewFilePanel;
     private javax.swing.JPanel processedFilesPanel;

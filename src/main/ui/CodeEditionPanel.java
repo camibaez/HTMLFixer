@@ -8,13 +8,18 @@ package main.ui;
 import core.file.Profile;
 import static main.ProjectAdministration.generateProfileJSON;
 import static main.ProjectAdministration.prettyPrintJSON;
+import org.fife.ui.rsyntaxtextarea.RSyntaxTextArea;
+import org.fife.ui.rsyntaxtextarea.SyntaxConstants;
+import org.fife.ui.rtextarea.RTextScrollPane;
 
 /**
  *
  * @author cbaez
  */
 public class CodeEditionPanel extends javax.swing.JPanel {
+
     Profile profile;
+
     /**
      * Creates new form CodeEditionPanel
      */
@@ -22,7 +27,20 @@ public class CodeEditionPanel extends javax.swing.JPanel {
         this.profile = profile;
         initComponents();
         
+
+    }
+
+    protected final void loadEditor() {
+        String code = prettyPrintJSON(generateProfileJSON(profile));
+        RSyntaxTextArea textArea = new RSyntaxTextArea(code);
+        textArea.setAutoIndentEnabled(true);
+        textArea.setEditable(false);
         
+        textArea.setSyntaxEditingStyle(SyntaxConstants.SYNTAX_STYLE_JSON);
+        textArea.setCodeFoldingEnabled(true);
+        
+        RTextScrollPane sp = new RTextScrollPane(textArea);
+        jPanel1.add(sp, java.awt.BorderLayout.CENTER);
     }
 
     /**
@@ -34,8 +52,7 @@ public class CodeEditionPanel extends javax.swing.JPanel {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
-        jScrollPane1 = new javax.swing.JScrollPane();
-        jTextArea1 = new javax.swing.JTextArea();
+        jPanel1 = new javax.swing.JPanel();
 
         addComponentListener(new java.awt.event.ComponentAdapter() {
             public void componentShown(java.awt.event.ComponentEvent evt) {
@@ -44,21 +61,16 @@ public class CodeEditionPanel extends javax.swing.JPanel {
         });
         setLayout(new java.awt.BorderLayout());
 
-        jTextArea1.setEditable(false);
-        jTextArea1.setColumns(20);
-        jTextArea1.setRows(5);
-        jScrollPane1.setViewportView(jTextArea1);
-
-        add(jScrollPane1, java.awt.BorderLayout.CENTER);
+        jPanel1.setLayout(new java.awt.BorderLayout());
+        add(jPanel1, java.awt.BorderLayout.CENTER);
     }// </editor-fold>//GEN-END:initComponents
 
     private void formComponentShown(java.awt.event.ComponentEvent evt) {//GEN-FIRST:event_formComponentShown
-       jTextArea1.setText(prettyPrintJSON(generateProfileJSON(profile)));
+        loadEditor();
     }//GEN-LAST:event_formComponentShown
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JScrollPane jScrollPane1;
-    private javax.swing.JTextArea jTextArea1;
+    private javax.swing.JPanel jPanel1;
     // End of variables declaration//GEN-END:variables
 }
