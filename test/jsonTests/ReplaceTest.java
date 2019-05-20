@@ -56,7 +56,7 @@ public class ReplaceTest extends HTMLTest {
         assertEquals(1, prototypeFileMap.get(p).size());
         
         FileProcessor processor = new FileProcessor(profile, profile.getCleaners());
-        processor.processFiles();
+        processor.processAll();
 
     }
 

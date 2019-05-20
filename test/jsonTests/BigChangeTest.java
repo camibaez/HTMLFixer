@@ -44,7 +44,7 @@ public class BigChangeTest extends HTMLTest{
     @Test
     public void findReplaceTest() throws Exception {
         FileProcessor processor = new FileProcessor(profile, profile.getCleaners());
-        processor.processFiles();
+        processor.processAll();
 
     }
 }
